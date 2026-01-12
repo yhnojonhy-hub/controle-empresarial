@@ -83,3 +83,8 @@
 - [ ] Testes de upload de documentos
 - [ ] Testes do chatbot IA
 - [ ] Validação de exportação Excel
+
+
+## Bugs Reportados
+- [x] Corrigir carregamento de dados das empresas (não está puxando dados)
+- [x] Verificar e corrigir importação de dados da planilha Excel
