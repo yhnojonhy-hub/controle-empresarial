@@ -88,3 +88,7 @@
 ## Bugs Reportados
 - [x] Corrigir carregamento de dados das empresas (não está puxando dados)
 - [x] Verificar e corrigir importação de dados da planilha Excel
+
+
+## Deploy e Versionamento
+- [ ] Fazer push do código para GitHub (https://github.com/yhnojonhy-hub/controle-empresarial.git)
