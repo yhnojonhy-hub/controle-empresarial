@@ -109,3 +109,13 @@
 - [x] Corrigir erro de tipo dataAbertura (string → Date)
 - [x] Implementar conversão automática em routers
 - [x] Validar correção com testes
+
+
+## Páginas Frontend
+- [x] Remover página Chatbot e rota correspondente
+- [x] Criar página completa de KPI com formulário e listagem
+- [x] Criar página completa de Contas (a pagar/receber) com formulário e listagem
+- [x] Criar página completa de Funcionários com formulário e listagem
+- [x] Criar página completa de Fluxo de Caixa com formulário e listagem
+- [x] Criar página completa de Impostos com formulário e listagem
+- [x] Criar página completa de Alertas com listagem e configurações

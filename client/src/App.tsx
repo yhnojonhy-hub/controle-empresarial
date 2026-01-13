@@ -7,26 +7,26 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import DashboardLayout from "./components/DashboardLayout";
 import Home from "./pages/Home";
 import Empresas from "./pages/Empresas";
-import Kpis from "./pages/Kpis";
+import Kpi from "./pages/Kpi";
 import Contas from "./pages/Contas";
 import Funcionarios from "./pages/Funcionarios";
 import FluxoCaixa from "./pages/FluxoCaixa";
 import Impostos from "./pages/Impostos";
 import Alertas from "./pages/Alertas";
-import Chatbot from "./pages/Chatbot";
+
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/empresas" component={Empresas} />
-      <Route path="/kpis" component={Kpis} />
+      <Route path="/kpis" component={Kpi} />
       <Route path="/contas" component={Contas} />
       <Route path="/funcionarios" component={Funcionarios} />
       <Route path="/fluxo-caixa" component={FluxoCaixa} />
       <Route path="/impostos" component={Impostos} />
       <Route path="/alertas" component={Alertas} />
-      <Route path="/chatbot" component={Chatbot} />
+
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
