@@ -91,4 +91,15 @@
 
 
 ## Deploy e Versionamento
-- [ ] Fazer push do código para GitHub (https://github.com/yhnojonhy-hub/controle-empresarial.git)
+- [x] Fazer push do código para GitHub (https://github.com/yhnojonhy-hub/controle-empresarial.git)
+
+
+## Refatoração SOLID e TDD
+- [x] Criar camada de serviços (Service Layer) separando lógica de negócio
+- [x] Criar camada de repositórios (Repository Pattern) para acesso a dados
+- [x] Aplicar princípio Single Responsibility (SRP) nos routers
+- [x] Aplicar princípio Dependency Inversion (DIP) com injeção de dependências
+- [x] Eliminar código duplicado usando loops e funções reutilizáveis
+- [x] Criar testes unitários para cada serviço (TDD)
+- [x] Refatorar componentes frontend eliminando repetições
+- [x] Criar hooks customizados reutilizáveis
