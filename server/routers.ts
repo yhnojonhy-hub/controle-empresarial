@@ -18,6 +18,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { empresaService } from "./services/empresa.service";
 import { invokeLLM } from "./_core/llm";
 import * as db from "./db";
+import { parseDate } from "./helpers/date-converter";
 
 // ========== Schemas Reutilizáveis (DRY) ==========
 const empresaCreateSchema = z.object({
@@ -79,9 +80,13 @@ const empresasRouter = router({
   update: protectedProcedure
     .input(z.object({ id: z.number(), data: empresaUpdateSchema }))
     .mutation(async ({ input }) => {
-      // Remover dataAbertura do input pois é string e DB espera Date
+      // Converter dataAbertura de string para Date
       const { dataAbertura, ...rest } = input.data;
-      return await empresaService.update(input.id, rest as any);
+      const dataToUpdate = {
+        ...rest,
+        ...(dataAbertura ? { dataAbertura: parseDate(dataAbertura) } : {}),
+      };
+      return await empresaService.update(input.id, dataToUpdate as any);
     }),
 
   delete: protectedProcedure

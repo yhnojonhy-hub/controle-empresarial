@@ -103,3 +103,9 @@
 - [x] Criar testes unitários para cada serviço (TDD)
 - [x] Refatorar componentes frontend eliminando repetições
 - [x] Criar hooks customizados reutilizáveis
+
+
+## Correções TypeScript
+- [x] Corrigir erro de tipo dataAbertura (string → Date)
+- [x] Implementar conversão automática em routers
+- [x] Validar correção com testes
