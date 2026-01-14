@@ -521,3 +521,43 @@
 - [ ] Testar filtros e busca
 - [ ] Verificar performance com grande volume de dados
 - [ ] Validar responsividade da página
+
+
+## Limpeza e Organização Completa do Código
+
+### 1. Backend - Limpeza e Organização
+- [ ] Limpar e organizar routers.ts (remover duplicação, melhorar imports)
+- [ ] Limpar e organizar db.ts (padronizar funções, remover código morto)
+- [ ] Organizar services/ (remover duplicação entre services)
+- [ ] Limpar validators/ (consolidar validações duplicadas)
+- [ ] Organizar constants/ (remover valores mágicos)
+- [ ] Limpar errors/ (padronizar tratamento de erros)
+- [ ] Organizar logger/ (remover logs desnecessários)
+
+### 2. Frontend - Limpeza e Organização
+- [ ] Limpar App.tsx (organizar imports, remover código morto)
+- [ ] Limpar páginas (remover duplicação de lógica entre páginas)
+- [ ] Organizar componentes (consolidar componentes similares)
+- [ ] Padronizar hooks customizados
+- [ ] Remover estilos inline duplicados
+- [ ] Organizar contextos (remover contextos não utilizados)
+
+### 3. Remoção de Código Duplicado
+- [ ] Consolidar funções de formatação (currency, dates)
+- [ ] Consolidar funções de validação (CNPJ, CPF, email)
+- [ ] Remover handlers duplicados em páginas
+- [ ] Consolidar modals/dialogs similares
+
+### 4. Padronização
+- [ ] Padronizar nomenclatura de variáveis (camelCase, PascalCase)
+- [ ] Padronizar nomenclatura de funções
+- [ ] Padronizar nomenclatura de arquivos
+- [ ] Padronizar ordem de imports
+- [ ] Padronizar estilos de código (indentação, espaçamento)
+- [ ] Padronizar tratamento de erros
+
+### 5. Validação e Testes
+- [ ] Executar testes para validar funcionamento
+- [ ] Verificar se não há erros de TypeScript
+- [ ] Testar todas as páginas principais
+- [ ] Validar que nenhuma funcionalidade foi quebrada
