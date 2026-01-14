@@ -102,6 +102,11 @@ const dashboardRouter = router({
   getData: protectedProcedure.query(async () => {
     return await db.getDashboardData();
   }),
+  
+  summary: protectedProcedure.query(async () => {
+    const dashboardData = await db.getDashboardData();
+    return dashboardData;
+  }),
 });
 
 // ========== KPIs Router (Pattern repetido - usar factory futuramente) ==========

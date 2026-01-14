@@ -137,3 +137,9 @@
 - [x] Criar testes para página Impostos
 - [x] Criar testes para página Alertas (listagem e status)
 - [x] Validar todos os testes passando (100%)
+
+
+## Correções de Bugs
+- [x] Criar router dashboard.summary para resolver erro na Home
+- [x] Implementar cálculos de indicadores em tempo real
+- [x] Testar correção com usuário autenticado
