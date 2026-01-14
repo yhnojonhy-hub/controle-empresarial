@@ -9,6 +9,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { requestLogger, errorLogger } from "../middleware/request-logger";
 import logger from "../logger";
+import { iniciarScheduler } from "../scheduler/alert-scheduler";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -68,6 +69,9 @@ async function startServer() {
 
   server.listen(port, () => {
     logger.info(`Server running on http://localhost:${port}/`, { context: "Server", port });
+    
+    // Iniciar scheduler de alertas automáticos
+    iniciarScheduler();
   });
 }
 

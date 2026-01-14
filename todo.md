@@ -396,3 +396,42 @@
 - [ ] Testar resolução de alerta
 - [ ] Validar filtros e ordenação
 - [ ] Verificar responsividade mobile
+
+
+## Sistema de Alertas Automáticos
+
+### 1. Serviço de Verificação de Alertas
+- [x] Criar serviço `alert-automation.service.ts` para lógica de verificação
+- [x] Implementar função de verificação de contas vencidas
+- [x] Implementar função de verificação de impostos próximos do vencimento
+- [x] Implementar função de criação de alertas sem duplicação
+- [x] Adicionar logging estruturado em todas as operações
+- [x] Implementar tratamento de erros robusto
+
+### 2. Lógica de Contas Vencidas
+- [x] Buscar contas com status "Pendente" e data de vencimento passada
+- [x] Calcular dias de atraso
+- [x] Definir severidade baseada em dias de atraso (1-7: Aviso, 8+: Crítico)
+- [x] Gerar alerta com informações detalhadas (valor, empresa, dias)
+- [x] Evitar duplicação de alertas para mesma conta
+
+### 3. Lógica de Impostos Próximos
+- [x] Buscar impostos com data de vencimento nos próximos 7 dias
+- [x] Definir severidade baseada em dias restantes (5-7: Info, 3-4: Aviso, 1-2: Crítico)
+- [x] Gerar alerta com informações detalhadas (tipo, valor, empresa)
+- [x] Evitar duplicação de alertas para mesmo imposto
+
+### 4. Endpoint tRPC e Agendamento
+- [x] Criar procedure `alertas.verificarAutomaticos` para execução manual
+- [x] Instalar node-cron para agendamento
+- [x] Configurar job para rodar diariamente às 8h
+- [x] Adicionar endpoint para forçar verificação manual
+- [x] Implementar logs de execução do scheduler
+
+### 5. Testes e Validação
+- [x] Criar testes unitários para serviço de alertas
+- [x] Testar verificação de contas vencidas com dados reais
+- [x] Testar verificação de impostos próximos com dados reais
+- [x] Validar não duplicação de alertas
+- [x] Testar execução manual via endpoint
+- [x] Validar agendamento automático

@@ -309,7 +309,14 @@ const alertasRouter = router({
   marcarLido: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
-      return await db.marcarAlertaComoLido(input.id);
+      await db.updateAlerta(input.id, { lido: true });
+    }),
+
+  verificarAutomaticos: protectedProcedure
+    .mutation(async () => {
+      const { executarVerificacaoCompleta } = await import("./services/alert-automation.service");
+      const resultado = await executarVerificacaoCompleta();
+      return resultado;
     }),
 });
 
