@@ -52,11 +52,15 @@ export async function createContaBancaria(data: InsertContaBancaria): Promise<Co
   try {
     const db = await getDb();
     if (!db) throw new Error("Database connection not available");
-    const [conta] = await db.insert(contasBancarias).values(data).returning();
+    const result = await db.insert(contasBancarias).values(data);
+    const inserted = await db.select().from(contasBancarias).where(eq(contasBancarias.id, Number(result[0].insertId))).limit(1);
+    const conta = inserted[0]!;
     logger.info("Conta bancária criada", { contaId: conta.id, empresaId: conta.empresaId });
     return conta;
   } catch (error) {
-    logger.error("Erro ao criar conta bancária", { error, data });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    logger.error("Erro ao criar conta bancária", { errorMessage, errorStack, data });
     throw error;
   }
 }
