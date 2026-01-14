@@ -118,11 +118,11 @@ const kpisRouter = router({
   create: protectedProcedure
     .input(z.object({
       empresaId: z.number(),
-      periodo: z.string(),
+      periodo: z.string().optional().default(new Date().toISOString().slice(0, 7)), // YYYY-MM
       faturamentoBruto: z.string(),
-      impostos: z.string().optional(),
-      custosFixos: z.string().optional(),
-      custosVariaveis: z.string().optional(),
+      impostos: z.string().optional().default("0"),
+      custosFixos: z.string().optional().default("0"),
+      custosVariaveis: z.string().optional().default("0"),
     }))
     .mutation(async ({ input }) => {
       return await db.createIndicadorKpi(input as any);

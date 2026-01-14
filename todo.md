@@ -153,3 +153,9 @@
 - [x] Expandir testes de Funcionários (create, update, delete)
 - [x] Criar testes de integração para fluxos completos
 - [x] Validar cobertura de testes em 100% dos routers
+
+
+## Correções de Formulários
+- [x] Corrigir validação do campo periodo no formulário KPI
+- [x] Tornar campos opcionais ou adicionar valores padrão
+- [x] Testar criação de KPI com todos os campos
