@@ -228,14 +228,14 @@
 
 
 ## Testes Práticos Completos de Todas as Abas
-- [ ] Testar barra de alertas (visualização, contador, marcar como lido)
-- [ ] Testar formulário Empresas (todos os campos, validação CNPJ, busca automática)
-- [ ] Testar formulário KPI (todos os campos, cálculos automáticos de margem e lucro)
-- [ ] Testar formulário Contas (todos os campos, validação de vencimento, status)
-- [ ] Testar formulário Funcionários (todos os campos, cálculo de custo total)
-- [ ] Testar formulário FluxoCaixa (todos os campos, tipos entrada/saída)
-- [ ] Testar formulário Impostos (todos os campos, cálculo automático de valor)
-- [ ] Testar operações de deletar em todas as abas
-- [ ] Testar listagens e visualização de dados em todas as abas
-- [ ] Documentar todos os bugs encontrados
-- [ ] Corrigir todos os bugs encontrados
+- [x] Testar barra de alertas (visualização, contador, marcar como lido)
+- [x] Testar formulário Empresas (todos os campos, validação CNPJ, busca automática)
+- [x] Testar formulário KPI (todos os campos, cálculos automáticos de margem e lucro)
+- [x] Testar formulário Contas (todos os campos, validação de vencimento, status)
+- [x] Testar formulário Funcionários (todos os campos, cálculo de custo total)
+- [x] Testar formulário FluxoCaixa (todos os campos, tipos entrada/saída)
+- [x] Testar formulário Impostos (todos os campos, cálculo automático de valor)
+- [x] Testar operações de deletar em todas as abas
+- [x] Testar listagens e visualização de dados em todas as abas
+- [x] Documentar todos os bugs encontrados
+- [x] Corrigir todos os bugs encontrados
