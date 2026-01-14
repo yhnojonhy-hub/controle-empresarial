@@ -142,9 +142,9 @@ const contasRouter = router({
       descricao: z.string(),
       categoria: z.string(),
       valor: z.string(),
-      vencimento: z.string(),
-      status: z.enum(["Pendente", "Pago", "Atrasado", "Cancelado"]).optional(),
-      prioridade: z.enum(["Baixa", "Media", "Alta"]).optional(),
+      vencimento: z.string().optional().default(new Date().toISOString().split('T')[0]), // YYYY-MM-DD
+      status: z.enum(["Pendente", "Pago", "Atrasado", "Cancelado"]).optional().default("Pendente"),
+      prioridade: z.enum(["Baixa", "Media", "Alta"]).optional().default("Media"),
     }))
     .mutation(async ({ input }) => {
       const conta = await db.createConta(input as any);

@@ -159,3 +159,5 @@
 - [x] Corrigir validação do campo periodo no formulário KPI
 - [x] Tornar campos opcionais ou adicionar valores padrão
 - [x] Testar criação de KPI com todos os campos
+
+- [x] Corrigir validação do campo vencimento no formulário Contas
