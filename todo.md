@@ -186,3 +186,25 @@
 ## Correções de Procedures
 - [x] Adicionar procedure delete no router KPIs
 - [x] Adicionar procedure delete em todos os routers faltantes (Contas, Funcionários, FluxoCaixa, Impostos)
+
+
+## Melhorias de UI e Funcionalidades
+- [ ] Adicionar botões de editar em todas as listagens (Empresas, KPI, Contas, Funcionários, FluxoCaixa, Impostos)
+- [ ] Criar modals/dialogs de edição com formulários preenchidos
+- [ ] Implementar procedure update em todos os routers
+- [ ] Adicionar gráficos no Dashboard com Recharts
+- [ ] Gráfico de evolução mensal de faturamento
+- [ ] Gráfico de comparativo entre empresas
+- [ ] Gráfico de despesas por categoria
+- [ ] Criar filtros nas listagens (busca, data, empresa, status, categoria)
+- [ ] Implementar campo de busca global em cada página
+
+## Testes Práticos de Páginas
+- [x] Testar página Fluxo de Caixa (adicionar entradas e saídas)
+- [x] Testar página Fluxo de Caixa (remover registros)
+- [x] Testar página Impostos (adicionar impostos com cálculos)
+- [x] Testar página Impostos (remover registros)
+- [x] Testar página Alertas (visualizar alertas)
+- [x] Testar página Alertas (marcar como lido)
+- [x] Validar todos os campos obrigatórios
+- [x] Validar cálculos automáticos
