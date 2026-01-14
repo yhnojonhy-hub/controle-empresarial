@@ -17,12 +17,12 @@ export default function Impostos() {
   const [editingImposto, setEditingImposto] = useState<any>(null);
 
   const utils = trpc.useUtils();
-  const { data: impostos, isLoading } = trpc.impostos.list.useQuery();
+  const { data: impostos, isLoading } = trpc.financeiro.impostos.list.useQuery();
   const { data: empresas } = trpc.empresas.list.useQuery();
 
-  const createImposto = trpc.impostos.create.useMutation({
+  const createImposto = trpc.financeiro.impostos.create.useMutation({
     onSuccess: () => {
-      utils.impostos.list.invalidate();
+      utils.financeiro.impostos.list.invalidate();
       setOpen(false);
       setFormData({});
       toast.success("Imposto cadastrado com sucesso!");
@@ -32,9 +32,9 @@ export default function Impostos() {
     },
   });
 
-  const updateImposto = trpc.impostos.update.useMutation({
+  const updateImposto = trpc.financeiro.impostos.update.useMutation({
     onSuccess: () => {
-      utils.impostos.list.invalidate();
+      utils.financeiro.impostos.list.invalidate();
       setEditOpen(false);
       setEditingImposto(null);
       toast.success("Imposto atualizado com sucesso!");
@@ -44,9 +44,9 @@ export default function Impostos() {
     },
   });
 
-  const deleteImposto = trpc.impostos.delete.useMutation({
+  const deleteImposto = trpc.financeiro.impostos.delete.useMutation({
     onSuccess: () => {
-      utils.impostos.list.invalidate();
+      utils.financeiro.impostos.list.invalidate();
       toast.success("Imposto deletado com sucesso!");
     },
     onError: (error) => {

@@ -23,8 +23,8 @@ export default function Home() {
   const { data: dashboard } = trpc.dashboard.summary.useQuery(undefined, {
     enabled: isAuthenticated,
   });
-  const { data: kpis } = trpc.kpis.list.useQuery(undefined, { enabled: isAuthenticated });
-  const { data: contas } = trpc.contas.list.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: kpis } = trpc.financeiro.kpis.list.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: contas } = trpc.financeiro.contas.list.useQuery(undefined, { enabled: isAuthenticated });
 
   const menuItems = [
     {

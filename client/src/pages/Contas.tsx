@@ -17,13 +17,13 @@ export default function Contas() {
   const [editingConta, setEditingConta] = useState<any>(null);
   const utils = trpc.useUtils();
 
-  const { data: contas, isLoading } = trpc.contas.list.useQuery();
+  const { data: contas, isLoading } = trpc.financeiro.contas.list.useQuery();
   const { data: empresas } = trpc.empresas.list.useQuery();
 
-  const createMutation = trpc.contas.create.useMutation({
+  const createMutation = trpc.financeiro.contas.create.useMutation({
     onSuccess: () => {
       toast.success("Conta registrada com sucesso!");
-      utils.contas.list.invalidate();
+      utils.financeiro.contas.list.invalidate();
       setDialogOpen(false);
     },
     onError: (error) => {
@@ -31,10 +31,10 @@ export default function Contas() {
     },
   });
 
-  const updateMutation = trpc.contas.update.useMutation({
+  const updateMutation = trpc.financeiro.contas.update.useMutation({
     onSuccess: () => {
       toast.success("Conta atualizada com sucesso!");
-      utils.contas.list.invalidate();
+      utils.financeiro.contas.list.invalidate();
       setEditOpen(false);
       setEditingConta(null);
     },
@@ -43,10 +43,10 @@ export default function Contas() {
     },
   });
 
-  const deleteMutation = trpc.contas.delete.useMutation({
+  const deleteMutation = trpc.financeiro.contas.delete.useMutation({
     onSuccess: () => {
       toast.success("Conta excluída!");
-      utils.contas.list.invalidate();
+      utils.financeiro.contas.list.invalidate();
     },
   });
 

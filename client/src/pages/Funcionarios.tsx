@@ -15,21 +15,21 @@ export default function Funcionarios() {
   const [editingFuncionario, setEditingFuncionario] = useState<any>(null);
   const utils = trpc.useUtils();
 
-  const { data: funcionarios, isLoading } = trpc.funcionarios.list.useQuery();
+  const { data: funcionarios, isLoading } = trpc.rh.list.useQuery();
   const { data: empresas } = trpc.empresas.list.useQuery();
 
-  const createMutation = trpc.funcionarios.create.useMutation({
+  const createMutation = trpc.rh.create.useMutation({
     onSuccess: () => {
       toast.success("Funcionário cadastrado!");
-      utils.funcionarios.list.invalidate();
+      utils.rh.list.invalidate();
       setDialogOpen(false);
     },
   });
 
-  const updateMutation = trpc.funcionarios.update.useMutation({
+  const updateMutation = trpc.rh.update.useMutation({
     onSuccess: () => {
       toast.success("Funcionário atualizado com sucesso!");
-      utils.funcionarios.list.invalidate();
+      utils.rh.list.invalidate();
       setEditOpen(false);
       setEditingFuncionario(null);
     },
@@ -38,10 +38,10 @@ export default function Funcionarios() {
     },
   });
 
-  const deleteMutation = trpc.funcionarios.delete.useMutation({
+  const deleteMutation = trpc.rh.delete.useMutation({
     onSuccess: () => {
       toast.success("Funcionário excluído!");
-      utils.funcionarios.list.invalidate();
+      utils.rh.list.invalidate();
     },
   });
 

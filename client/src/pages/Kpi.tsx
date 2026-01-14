@@ -17,14 +17,14 @@ export default function Kpi() {
   const utils = trpc.useUtils();
 
   // Queries
-  const { data: kpis, isLoading } = trpc.kpis.list.useQuery();
+  const { data: kpis, isLoading } = trpc.financeiro.kpis.list.useQuery();
   const { data: empresas } = trpc.empresas.list.useQuery();
 
   // Mutations
-  const createMutation = trpc.kpis.create.useMutation({
+  const createMutation = trpc.financeiro.kpis.create.useMutation({
     onSuccess: () => {
       toast.success("KPI registrado com sucesso!");
-      utils.kpis.list.invalidate();
+      utils.financeiro.kpis.list.invalidate();
       setDialogOpen(false);
     },
     onError: (error: any) => {
@@ -32,10 +32,10 @@ export default function Kpi() {
     },
   });
 
-  const updateMutation = trpc.kpis.update.useMutation({
+  const updateMutation = trpc.financeiro.kpis.update.useMutation({
     onSuccess: () => {
       toast.success("KPI atualizado com sucesso!");
-      utils.kpis.list.invalidate();
+      utils.financeiro.kpis.list.invalidate();
       setEditOpen(false);
       setEditingKpi(null);
     },
@@ -44,10 +44,10 @@ export default function Kpi() {
     },
   });
 
-  const deleteMutation = trpc.kpis.delete.useMutation({
+  const deleteMutation = trpc.financeiro.kpis.delete.useMutation({
     onSuccess: () => {
       toast.success("KPI excluído com sucesso!");
-      utils.kpis.list.invalidate();
+      utils.financeiro.kpis.list.invalidate();
     },
     onError: (error: any) => {
       toast.error(`Erro ao excluir KPI: ${error.message}`);

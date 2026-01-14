@@ -18,11 +18,11 @@ export default function FluxoCaixa() {
   const [editingFluxo, setEditingFluxo] = useState<any>(null);
 
   const utils = trpc.useUtils();
-  const { data: fluxos, isLoading } = trpc.fluxoCaixa.list.useQuery();
+  const { data: fluxos, isLoading } = trpc.financeiro.fluxoCaixa.list.useQuery();
 
-  const createFluxo = trpc.fluxoCaixa.create.useMutation({
+  const createFluxo = trpc.financeiro.fluxoCaixa.create.useMutation({
     onSuccess: () => {
-      utils.fluxoCaixa.list.invalidate();
+      utils.financeiro.fluxoCaixa.list.invalidate();
       setOpen(false);
       setFormData({});
       toast.success("Movimentação cadastrada com sucesso!");
@@ -32,9 +32,9 @@ export default function FluxoCaixa() {
     },
   });
 
-  const updateFluxo = trpc.fluxoCaixa.update.useMutation({
+  const updateFluxo = trpc.financeiro.fluxoCaixa.update.useMutation({
     onSuccess: () => {
-      utils.fluxoCaixa.list.invalidate();
+      utils.financeiro.fluxoCaixa.list.invalidate();
       setEditOpen(false);
       setEditingFluxo(null);
       toast.success("Movimentação atualizada com sucesso!");
@@ -44,9 +44,9 @@ export default function FluxoCaixa() {
     },
   });
 
-  const deleteFluxo = trpc.fluxoCaixa.delete.useMutation({
+  const deleteFluxo = trpc.financeiro.fluxoCaixa.delete.useMutation({
     onSuccess: () => {
-      utils.fluxoCaixa.list.invalidate();
+      utils.financeiro.fluxoCaixa.list.invalidate();
       toast.success("Movimentação deletada com sucesso!");
     },
     onError: (error) => {
