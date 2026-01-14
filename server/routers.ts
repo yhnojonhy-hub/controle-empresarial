@@ -25,7 +25,7 @@ const empresaCreateSchema = z.object({
   razaoSocial: z.string().optional(),
   nomeFantasia: z.string().optional(),
   cnpj: z.string(),
-  capitalSocial: z.string().optional(),
+  capitalSocial: z.union([z.string(), z.number()]).optional().transform(val => val?.toString()),
   cnae: z.string().optional(),
   regimeTributario: z.string().optional(),
   enderecoCompleto: z.string().optional(),
