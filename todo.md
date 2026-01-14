@@ -225,3 +225,17 @@
 - [ ] Adicionar filtros de data nas listagens
 - [ ] Adicionar filtros de empresa nas listagens
 - [ ] Fazer push final para GitHub
+
+
+## Testes Práticos Completos de Todas as Abas
+- [ ] Testar barra de alertas (visualização, contador, marcar como lido)
+- [ ] Testar formulário Empresas (todos os campos, validação CNPJ, busca automática)
+- [ ] Testar formulário KPI (todos os campos, cálculos automáticos de margem e lucro)
+- [ ] Testar formulário Contas (todos os campos, validação de vencimento, status)
+- [ ] Testar formulário Funcionários (todos os campos, cálculo de custo total)
+- [ ] Testar formulário FluxoCaixa (todos os campos, tipos entrada/saída)
+- [ ] Testar formulário Impostos (todos os campos, cálculo automático de valor)
+- [ ] Testar operações de deletar em todas as abas
+- [ ] Testar listagens e visualização de dados em todas as abas
+- [ ] Documentar todos os bugs encontrados
+- [ ] Corrigir todos os bugs encontrados
