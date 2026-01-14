@@ -8,10 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Plus, TrendingUp, DollarSign, Percent } from "lucide-react";
+import { Plus, TrendingUp, DollarSign, Percent, Pencil, Trash2 } from "lucide-react";
 
 export default function Kpi() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingKpi, setEditingKpi] = useState<any>(null);
   const utils = trpc.useUtils();
 
   // Queries
@@ -27,6 +29,18 @@ export default function Kpi() {
     },
     onError: (error: any) => {
       toast.error(`Erro ao registrar KPI: ${error.message}`);
+    },
+  });
+
+  const updateMutation = trpc.kpis.update.useMutation({
+    onSuccess: () => {
+      toast.success("KPI atualizado com sucesso!");
+      utils.kpis.list.invalidate();
+      setEditOpen(false);
+      setEditingKpi(null);
+    },
+    onError: (error: any) => {
+      toast.error(`Erro ao atualizar KPI: ${error.message}`);
     },
   });
 
@@ -52,6 +66,28 @@ export default function Kpi() {
       custosFixos: formData.get("custosFixos") as string,
       custosVariaveis: formData.get("custosVariaveis") as string,
       observacoes: formData.get("observacoes") as string,
+    });
+  };
+
+  const handleEdit = (kpi: any) => {
+    setEditingKpi(kpi);
+    setEditOpen(true);
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    updateMutation.mutate({
+      id: editingKpi.id,
+      data: {
+        empresaId: parseInt(formData.get("empresaId") as string),
+        mesAno: formData.get("mesAno") as string,
+        faturamentoBruto: formData.get("faturamentoBruto") as string,
+        impostos: formData.get("impostos") as string,
+        custosFixos: formData.get("custosFixos") as string,
+        custosVariaveis: formData.get("custosVariaveis") as string,
+      },
     });
   };
 
@@ -222,6 +258,112 @@ export default function Kpi() {
         </Dialog>
       </div>
 
+      {/* Dialog de Edição */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Editar Indicadores KPI</DialogTitle>
+            <DialogDescription>
+              Atualize os dados financeiros do período.
+            </DialogDescription>
+          </DialogHeader>
+
+          {editingKpi && (
+            <form onSubmit={handleUpdateSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-empresaId">Empresa *</Label>
+                  <Select name="empresaId" required defaultValue={editingKpi.empresaId?.toString()}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a empresa" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {empresas?.map((empresa) => (
+                        <SelectItem key={empresa.id} value={empresa.id.toString()}>
+                          {empresa.nomeFantasia || empresa.razaoSocial}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-mesAno">Mês/Ano *</Label>
+                  <Input
+                    id="edit-mesAno"
+                    name="mesAno"
+                    type="month"
+                    required
+                    defaultValue={editingKpi.mesAno}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-faturamentoBruto">Faturamento Bruto *</Label>
+                  <Input
+                    id="edit-faturamentoBruto"
+                    name="faturamentoBruto"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingKpi.faturamentoBruto}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-impostos">Impostos *</Label>
+                  <Input
+                    id="edit-impostos"
+                    name="impostos"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingKpi.impostos}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-custosFixos">Custos Fixos *</Label>
+                  <Input
+                    id="edit-custosFixos"
+                    name="custosFixos"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingKpi.custosFixos}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-custosVariaveis">Custos Variáveis *</Label>
+                  <Input
+                    id="edit-custosVariaveis"
+                    name="custosVariaveis"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingKpi.custosVariaveis}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-4">
+                <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={updateMutation.isPending}>
+                  {updateMutation.isPending ? "Salvando..." : "Salvar Alterações"}
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* Lista de KPIs */}
       <div className="grid gap-4">
         {kpis && kpis.length > 0 ? (
@@ -239,13 +381,22 @@ export default function Kpi() {
                         Período: {new Date(kpi.mesAno + "-01").toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
                       </CardDescription>
                     </div>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDelete(kpi.id)}
-                    >
-                      Excluir
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(kpi)}
+                      >
+                        <Pencil className="h-4 w-4 text-primary" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(kpi.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>

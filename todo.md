@@ -250,7 +250,7 @@
 - [x] Implementar procedure update no router Impostos
 - [ ] Implementar procedure update no router Alertas
 - [x] Adicionar botão de editar na página Empresas com modal
-- [ ] Adicionar botão de editar na página KPI com modal
+- [x] Adicionar botão de editar na página KPI com modal
 - [ ] Adicionar botão de editar na página Contas com modal
 - [ ] Adicionar botão de editar na página Funcionários com modal
 - [ ] Adicionar botão de editar na página FluxoCaixa com modal
