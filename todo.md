@@ -239,3 +239,22 @@
 - [x] Testar listagens e visualização de dados em todas as abas
 - [x] Documentar todos os bugs encontrados
 - [x] Corrigir todos os bugs encontrados
+
+
+## Implementação de Botões de Edição Inline
+- [x] Verificar procedures update existentes em todos os routers
+- [x] Implementar procedure update no router KPI
+- [x] Implementar procedure update no router Contas
+- [x] Implementar procedure update no router Funcionários
+- [x] Implementar procedure update no router FluxoCaixa
+- [x] Implementar procedure update no router Impostos
+- [ ] Implementar procedure update no router Alertas
+- [x] Adicionar botão de editar na página Empresas com modal
+- [ ] Adicionar botão de editar na página KPI com modal
+- [ ] Adicionar botão de editar na página Contas com modal
+- [ ] Adicionar botão de editar na página Funcionários com modal
+- [ ] Adicionar botão de editar na página FluxoCaixa com modal
+- [ ] Adicionar botão de editar na página Impostos com modal
+- [ ] Adicionar botão de editar na página Alertas com modal
+- [ ] Criar testes unitários para todos os procedures update
+- [ ] Validar funcionalidade de edição em todas as páginas

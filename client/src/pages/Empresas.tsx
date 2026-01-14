@@ -7,18 +7,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Loader2, Building2, Trash2 } from "lucide-react";
+import { Plus, Search, Loader2, Building2, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Empresas() {
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [cnpj, setCnpj] = useState("");
   const [buscando, setBuscando] = useState(false);
   const [formData, setFormData] = useState<any>({});
+  const [editingEmpresa, setEditingEmpresa] = useState<any>(null);
 
   const utils = trpc.useUtils();
   const { data: empresas, isLoading } = trpc.empresas.list.useQuery();
   const consultarCNPJ = trpc.empresas.consultarCNPJ.useMutation();
+  
   const createEmpresa = trpc.empresas.create.useMutation({
     onSuccess: () => {
       utils.empresas.list.invalidate();
@@ -29,6 +32,18 @@ export default function Empresas() {
     },
     onError: (error) => {
       toast.error("Erro ao cadastrar empresa: " + error.message);
+    },
+  });
+
+  const updateEmpresa = trpc.empresas.update.useMutation({
+    onSuccess: () => {
+      utils.empresas.list.invalidate();
+      setEditOpen(false);
+      setEditingEmpresa(null);
+      toast.success("Empresa atualizada com sucesso!");
+    },
+    onError: (error) => {
+      toast.error("Erro ao atualizar empresa: " + error.message);
     },
   });
 
@@ -48,6 +63,14 @@ export default function Empresas() {
     }
   };
 
+  const handleEdit = (empresa: any) => {
+    setEditingEmpresa({
+      ...empresa,
+      dataAbertura: empresa.dataAbertura ? new Date(empresa.dataAbertura).toISOString().split('T')[0] : "",
+    });
+    setEditOpen(true);
+  };
+
   const handleBuscarCNPJ = async () => {
     if (!cnpj) return;
     setBuscando(true);
@@ -65,6 +88,12 @@ export default function Empresas() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createEmpresa.mutate({ ...formData, cnpj });
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { id, createdAt, updatedAt, ...data } = editingEmpresa;
+    updateEmpresa.mutate({ id, data });
   };
 
   return (
@@ -236,6 +265,156 @@ export default function Empresas() {
         </Dialog>
       </div>
 
+      {/* Dialog de Edição */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Editar Empresa</DialogTitle>
+            <DialogDescription>Atualize as informações da empresa</DialogDescription>
+          </DialogHeader>
+          {editingEmpresa && (
+            <form onSubmit={handleUpdateSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-razaoSocial">Razão Social</Label>
+                  <Input
+                    id="edit-razaoSocial"
+                    value={editingEmpresa.razaoSocial || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, razaoSocial: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-nomeFantasia">Nome Fantasia</Label>
+                  <Input
+                    id="edit-nomeFantasia"
+                    value={editingEmpresa.nomeFantasia || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, nomeFantasia: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-cnpj">CNPJ</Label>
+                  <Input
+                    id="edit-cnpj"
+                    value={editingEmpresa.cnpj || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, cnpj: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-capitalSocial">Capital Social</Label>
+                  <Input
+                    id="edit-capitalSocial"
+                    type="number"
+                    step="0.01"
+                    value={editingEmpresa.capitalSocial || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, capitalSocial: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-cnae">CNAE</Label>
+                  <Input
+                    id="edit-cnae"
+                    value={editingEmpresa.cnae || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, cnae: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-regimeTributario">Regime Tributário</Label>
+                  <Input
+                    id="edit-regimeTributario"
+                    value={editingEmpresa.regimeTributario || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, regimeTributario: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="edit-enderecoCompleto">Endereço Completo</Label>
+                <Input
+                  id="edit-enderecoCompleto"
+                  value={editingEmpresa.enderecoCompleto || ""}
+                  onChange={(e) => setEditingEmpresa({ ...editingEmpresa, enderecoCompleto: e.target.value })}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-cidade">Cidade</Label>
+                  <Input
+                    id="edit-cidade"
+                    value={editingEmpresa.cidade || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, cidade: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-estado">Estado</Label>
+                  <Input
+                    id="edit-estado"
+                    value={editingEmpresa.estado || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, estado: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-responsavelLegal">Responsável Legal</Label>
+                  <Input
+                    id="edit-responsavelLegal"
+                    value={editingEmpresa.responsavelLegal || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, responsavelLegal: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-telefone">Telefone</Label>
+                  <Input
+                    id="edit-telefone"
+                    value={editingEmpresa.telefone || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, telefone: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-email">E-mail</Label>
+                  <Input
+                    id="edit-email"
+                    type="email"
+                    value={editingEmpresa.email || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, email: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-dataAbertura">Data de Abertura</Label>
+                  <Input
+                    id="edit-dataAbertura"
+                    type="date"
+                    value={editingEmpresa.dataAbertura || ""}
+                    onChange={(e) => setEditingEmpresa({ ...editingEmpresa, dataAbertura: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={updateEmpresa.isPending}>
+                  {updateEmpresa.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                  Salvar Alterações
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {isLoading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -276,14 +455,23 @@ export default function Empresas() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(empresa.id, empresa.nomeFantasia || empresa.razaoSocial || "Empresa")}
-                        disabled={deleteEmpresa.isPending}
-                      >
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </Button>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEdit(empresa)}
+                        >
+                          <Pencil className="w-4 h-4 text-primary" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(empresa.id, empresa.nomeFantasia || empresa.razaoSocial || "Empresa")}
+                          disabled={deleteEmpresa.isPending}
+                        >
+                          <Trash2 className="w-4 h-4 text-destructive" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

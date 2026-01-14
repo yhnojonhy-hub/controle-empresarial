@@ -128,6 +128,22 @@ const kpisRouter = router({
       return await db.createIndicadorKpi(input as any);
     }),
 
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      data: z.object({
+        empresaId: z.number().optional(),
+        mesAno: z.string().optional(),
+        faturamentoBruto: z.string().optional(),
+        impostos: z.string().optional(),
+        custosFixos: z.string().optional(),
+        custosVariaveis: z.string().optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.updateIndicadorKpi(input.id, input.data as any);
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
@@ -174,6 +190,24 @@ const contasRouter = router({
       return conta;
     }),
 
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      data: z.object({
+        tipo: z.enum(["Pagar", "Receber"]).optional(),
+        empresaId: z.number().optional(),
+        descricao: z.string().optional(),
+        categoria: z.string().optional(),
+        valor: z.string().optional(),
+        vencimento: z.string().optional(),
+        status: z.enum(["Pendente", "Pago", "Atrasado", "Cancelado"]).optional(),
+        prioridade: z.enum(["Baixa", "Media", "Alta"]).optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.updateConta(input.id, input.data as any);
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
@@ -199,6 +233,23 @@ const funcionariosRouter = router({
     }))
     .mutation(async ({ input }) => {
       return await db.createFuncionario(input as any);
+    }),
+
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      data: z.object({
+        nome: z.string().optional(),
+        cpf: z.string().optional(),
+        cargo: z.string().optional(),
+        tipoContrato: z.enum(["CLT", "PJ", "Estagiario", "Temporario"]).optional(),
+        salarioBase: z.string().optional(),
+        beneficios: z.string().optional(),
+        status: z.enum(["Contratado", "Demitido", "Afastado"]).optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.updateFuncionario(input.id, input.data as any);
     }),
 
   delete: protectedProcedure
@@ -291,6 +342,21 @@ const fluxoCaixaRouter = router({
       return await db.createFluxoCaixa(input as any);
     }),
 
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      data: z.object({
+        data: z.string().optional(),
+        tipo: z.enum(["Entrada", "Saida"]).optional(),
+        descricao: z.string().optional(),
+        categoria: z.string().optional(),
+        valor: z.string().optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.updateFluxoCaixa(input.id, input.data as any);
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
@@ -315,6 +381,22 @@ const impostosRouter = router({
     }))
     .mutation(async ({ input }) => {
       return await db.createImposto(input as any);
+    }),
+
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      data: z.object({
+        empresaId: z.number().optional(),
+        mesAno: z.string().optional(),
+        tipo: z.string().optional(),
+        baseCalculo: z.string().optional(),
+        aliquota: z.string().optional(),
+        vencimento: z.string().optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.updateImposto(input.id, input.data as any);
     }),
 
   delete: protectedProcedure
