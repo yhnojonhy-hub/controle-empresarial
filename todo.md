@@ -208,3 +208,20 @@
 - [x] Testar página Alertas (marcar como lido)
 - [x] Validar todos os campos obrigatórios
 - [x] Validar cálculos automáticos
+
+
+## Correções e Melhorias Finais
+- [x] Corrigir página Alertas (não está funcionando)
+- [x] Verificar router alertas.marcarComoLido
+- [ ] Adicionar botões de editar em KPI
+- [ ] Adicionar botões de editar em Contas
+- [ ] Adicionar botões de editar em Funcionários
+- [ ] Adicionar botões de editar em FluxoCaixa
+- [ ] Adicionar botões de editar em Impostos
+- [x] Implementar gráfico de evolução de faturamento no Dashboard
+- [x] Implementar gráfico de despesas por categoria no Dashboard
+- [x] Implementar gráfico de lucro/prejuízo mensal no Dashboard
+- [ ] Adicionar filtros de busca em todas as listagens
+- [ ] Adicionar filtros de data nas listagens
+- [ ] Adicionar filtros de empresa nas listagens
+- [ ] Fazer push final para GitHub

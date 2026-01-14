@@ -9,7 +9,7 @@ export default function Alertas() {
   const utils = trpc.useUtils();
   const { data: alertas, isLoading } = trpc.alertas.list.useQuery();
 
-  const marcarComoLido = trpc.alertas.marcarComoLido.useMutation({
+  const marcarComoLido = trpc.alertas.marcarLido.useMutation({
     onSuccess: () => {
       utils.alertas.list.invalidate();
       toast.success("Alerta marcado como lido!");

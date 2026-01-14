@@ -16,12 +16,15 @@ import {
   UserCheck
 } from "lucide-react";
 import { Link } from "wouter";
+import { DashboardCharts } from "@/components/DashboardCharts";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const { data: dashboard } = trpc.dashboard.summary.useQuery(undefined, {
     enabled: isAuthenticated,
   });
+  const { data: kpis } = trpc.kpis.list.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: contas } = trpc.contas.list.useQuery(undefined, { enabled: isAuthenticated });
 
   const menuItems = [
     {
@@ -262,6 +265,17 @@ export default function Home() {
             </Card>
           </div>
         </section>
+
+        {/* Gráficos */}
+        {kpis && kpis.length > 0 && contas && contas.length > 0 && (
+          <section className="mb-12">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-slate-900">Análises e Gráficos</h2>
+              <p className="text-slate-600">Visualização de dados financeiros</p>
+            </div>
+            <DashboardCharts kpisData={kpis} contasData={contas} />
+          </section>
+        )}
 
         {/* Menu de Navegação */}
         <section>
