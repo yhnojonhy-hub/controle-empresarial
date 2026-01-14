@@ -39,7 +39,7 @@ interface ResumoReconciliacao {
  */
 export default function Reconciliacao() {
   const { user } = useAuth();
-  const [, navigate] = useRouter();
+  const navigate = useRouter()[1];
   const [selectedEmpresa, setSelectedEmpresa] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'Todos' | 'Reconciliado' | 'Pendente'>('Todos');
   const [searchTerm, setSearchTerm] = useState('');
@@ -142,7 +142,6 @@ export default function Reconciliacao() {
   };
 
   if (!user) {
-    navigate('/');
     return null;
   }
 
@@ -213,12 +212,12 @@ export default function Reconciliacao() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium">Empresa</label>
-              <Select value={selectedEmpresa} onValueChange={setSelectedEmpresa}>
+              <Select value={selectedEmpresa || 'all'} onValueChange={(v) => setSelectedEmpresa(v === 'all' ? '' : v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Todas as empresas" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todas as empresas</SelectItem>
+                  <SelectItem value="all">Todas as empresas</SelectItem>
                   <SelectItem value="1">Ipe Bank</SelectItem>
                 </SelectContent>
               </Select>
@@ -228,7 +227,7 @@ export default function Reconciliacao() {
               <label className="text-sm font-medium">Status</label>
               <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Selecione o status" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Todos">Todos</SelectItem>
