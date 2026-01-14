@@ -371,6 +371,15 @@ export async function getAlertasNaoLidos(): Promise<Alerta[]> {
   return await db.select().from(alertas).where(eq(alertas.lido, false)).orderBy(desc(alertas.createdAt));
 }
 
+export async function updateAlerta(id: number, data: Partial<InsertAlerta>): Promise<Alerta> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(alertas).set(data).where(eq(alertas.id, id));
+  const updated = await db.select().from(alertas).where(eq(alertas.id, id)).limit(1);
+  return updated[0]!;
+}
+
 export async function marcarAlertaComoLido(id: number): Promise<void> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

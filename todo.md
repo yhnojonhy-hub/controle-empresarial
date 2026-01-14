@@ -363,3 +363,36 @@
 - [x] Testar diferentes níveis de log
 - [x] Verificar formato JSON dos logs
 - [x] Validar rastreamento de requisições
+
+
+## Implementação Completa da Página Alertas do Sistema
+
+### 1. Backend - Procedures e Validação
+- [x] Verificar procedures existentes no router Alertas
+- [x] Implementar/corrigir procedure alertas.list
+- [x] Implementar/corrigir procedure alertas.create
+- [x] Implementar/corrigir procedure alertas.update
+- [x] Implementar/corrigir procedure alertas.delete
+- [x] Implementar procedure alertas.marcarLido (marcar como lido)
+- [x] Adicionar validação de dados de entrada
+- [x] Integrar logger em todas as operações
+
+### 2. Frontend - Página Completa
+- [x] Criar/corrigir arquivo Alertas.tsx
+- [x] Implementar listagem de alertas
+- [x] Implementar formulário de criação de alerta
+- [x] Implementar botão de editar com modal
+- [x] Implementar botão de deletar com confirmação
+- [x] Implementar botão de marcar como lido
+- [x] Adicionar badges de severidade (Info, Aviso, Crítico)
+- [x] Adicionar badges de tipo (Vencimento, MargemNegativa, etc)
+- [x] Adicionar badge de status lido/não lido
+- [x] Implementar feedback visual (toasts)
+
+### 3. Testes Práticos
+- [ ] Testar criação de alerta via interface
+- [ ] Testar edição de alerta existente
+- [ ] Testar exclusão de alerta
+- [ ] Testar resolução de alerta
+- [ ] Validar filtros e ordenação
+- [ ] Verificar responsividade mobile
