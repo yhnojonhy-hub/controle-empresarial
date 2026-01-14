@@ -260,6 +260,22 @@ const fluxoCaixaRouter = router({
   list: protectedProcedure.query(async () => {
     return await db.getFluxoCaixa();
   }),
+
+  create: protectedProcedure
+    .input(z.object({
+      data: z.string(),
+      tipo: z.enum(["Entrada", "Saida"]),
+      empresaId: z.number().optional(),
+      descricao: z.string(),
+      categoria: z.string().optional(),
+      valor: z.string(),
+      metodoPagamento: z.string().optional(),
+      referencia: z.string().optional(),
+      observacoes: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.createFluxoCaixa(input as any);
+    }),
 });
 
 // ========== Impostos Router ==========
@@ -267,6 +283,22 @@ const impostosRouter = router({
   list: protectedProcedure.query(async () => {
     return await db.getImpostos();
   }),
+
+  create: protectedProcedure
+    .input(z.object({
+      empresaId: z.number(),
+      tipoImposto: z.string(),
+      mesAno: z.string().optional().default(new Date().toISOString().slice(0, 7)),
+      baseCalculo: z.string(),
+      aliquota: z.string(),
+      valor: z.string(),
+      vencimento: z.string(),
+      status: z.enum(["Pendente", "Pago", "Atrasado"]).optional().default("Pendente"),
+      observacoes: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      return await db.createImposto(input as any);
+    }),
 });
 
 // ========== App Router Principal ==========

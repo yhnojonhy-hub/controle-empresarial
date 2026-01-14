@@ -173,3 +173,11 @@
 - [ ] Implementar validação de valores numéricos positivos
 - [x] Criar script de dados de exemplo (seed data)
 - [x] Popular banco com dados de demonstração
+
+
+## Testes Práticos e Melhorias de UI
+- [x] Criar testes práticos para Fluxo de Caixa (CRUD completo)
+- [x] Criar testes práticos para Impostos (CRUD completo)
+- [x] Criar testes práticos para Alertas (listagem e marcar como lido)
+- [x] Adicionar botão de deletar empresas no painel
+- [x] Testar delete de empresas com confirmação

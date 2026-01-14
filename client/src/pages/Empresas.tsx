@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Loader2, Building2 } from "lucide-react";
+import { Plus, Search, Loader2, Building2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Empresas() {
@@ -31,6 +31,22 @@ export default function Empresas() {
       toast.error("Erro ao cadastrar empresa: " + error.message);
     },
   });
+
+  const deleteEmpresa = trpc.empresas.delete.useMutation({
+    onSuccess: () => {
+      utils.empresas.list.invalidate();
+      toast.success("Empresa deletada com sucesso!");
+    },
+    onError: (error) => {
+      toast.error("Erro ao deletar empresa: " + error.message);
+    },
+  });
+
+  const handleDelete = (id: number, nome: string) => {
+    if (window.confirm(`Tem certeza que deseja deletar a empresa "${nome}"? Esta ação não pode ser desfeita.`)) {
+      deleteEmpresa.mutate({ id });
+    }
+  };
 
   const handleBuscarCNPJ = async () => {
     if (!cnpj) return;
@@ -239,6 +255,7 @@ export default function Empresas() {
                   <TableHead>Cidade/Estado</TableHead>
                   <TableHead>Responsável</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -257,6 +274,16 @@ export default function Empresas() {
                       <Badge variant={empresa.status === "Aberto" ? "default" : "secondary"}>
                         {empresa.status}
                       </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(empresa.id, empresa.nomeFantasia || empresa.razaoSocial || "Empresa")}
+                        disabled={deleteEmpresa.isPending}
+                      >
+                        <Trash2 className="w-4 h-4 text-destructive" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
