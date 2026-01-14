@@ -251,10 +251,10 @@
 - [ ] Implementar procedure update no router Alertas
 - [x] Adicionar botão de editar na página Empresas com modal
 - [x] Adicionar botão de editar na página KPI com modal
-- [ ] Adicionar botão de editar na página Contas com modal
-- [ ] Adicionar botão de editar na página Funcionários com modal
-- [ ] Adicionar botão de editar na página FluxoCaixa com modal
-- [ ] Adicionar botão de editar na página Impostos com modal
+- [ ] Adicionar botão de editar na página Contas com modal (procedures prontos)
+- [ ] Adicionar botão de editar na página Funcionários com modal (procedures prontos)
+- [ ] Adicionar botão de editar na página FluxoCaixa com modal (procedures prontos)
+- [ ] Adicionar botão de editar na página Impostos com modal (procedures prontos)
 - [ ] Adicionar botão de editar na página Alertas com modal
 - [ ] Criar testes unitários para todos os procedures update
 - [ ] Validar funcionalidade de edição em todas as páginas
