@@ -8,12 +8,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Loader2, TrendingUp, TrendingDown, Trash2 } from "lucide-react";
+import { Plus, Loader2, TrendingUp, TrendingDown, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 export default function FluxoCaixa() {
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [formData, setFormData] = useState<any>({});
+  const [editingFluxo, setEditingFluxo] = useState<any>(null);
 
   const utils = trpc.useUtils();
   const { data: fluxos, isLoading } = trpc.fluxoCaixa.list.useQuery();
@@ -30,6 +32,18 @@ export default function FluxoCaixa() {
     },
   });
 
+  const updateFluxo = trpc.fluxoCaixa.update.useMutation({
+    onSuccess: () => {
+      utils.fluxoCaixa.list.invalidate();
+      setEditOpen(false);
+      setEditingFluxo(null);
+      toast.success("Movimentação atualizada com sucesso!");
+    },
+    onError: (error) => {
+      toast.error("Erro ao atualizar movimentação: " + error.message);
+    },
+  });
+
   const deleteFluxo = trpc.fluxoCaixa.delete.useMutation({
     onSuccess: () => {
       utils.fluxoCaixa.list.invalidate();
@@ -40,9 +54,32 @@ export default function FluxoCaixa() {
     },
   });
 
+  const handleEdit = (fluxo: any) => {
+    setEditingFluxo({
+      ...fluxo,
+      data: fluxo.data ? new Date(fluxo.data).toISOString().split('T')[0] : "",
+    });
+    setEditOpen(true);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createFluxo.mutate(formData);
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    updateFluxo.mutate({
+      id: editingFluxo.id,
+      data: {
+        data: formData.get("data") as string,
+        tipo: formData.get("tipo") as any,
+        descricao: formData.get("descricao") as string,
+        categoria: formData.get("categoria") as string,
+        valor: formData.get("valor") as string,
+      },
+    });
   };
 
   const handleDelete = (id: number, descricao: string) => {
@@ -146,6 +183,68 @@ export default function FluxoCaixa() {
         </Dialog>
       </div>
 
+      {/* Dialog de Edição */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Editar Movimentação</DialogTitle>
+            <DialogDescription>Atualize os dados da movimentação financeira</DialogDescription>
+          </DialogHeader>
+          {editingFluxo && (
+            <form onSubmit={handleUpdateSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Data *</Label>
+                  <Input name="data" type="date" required defaultValue={editingFluxo.data} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Tipo *</Label>
+                  <Select name="tipo" required defaultValue={editingFluxo.tipo}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Entrada">Entrada</SelectItem>
+                      <SelectItem value="Saida">Saída</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Descrição *</Label>
+                <Input name="descricao" required defaultValue={editingFluxo.descricao} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Categoria *</Label>
+                  <Select name="categoria" required defaultValue={editingFluxo.categoria}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Vendas">Vendas</SelectItem>
+                      <SelectItem value="Serviços">Serviços</SelectItem>
+                      <SelectItem value="Investimentos">Investimentos</SelectItem>
+                      <SelectItem value="Fornecedores">Fornecedores</SelectItem>
+                      <SelectItem value="Salários">Salários</SelectItem>
+                      <SelectItem value="Impostos">Impostos</SelectItem>
+                      <SelectItem value="Despesas Operacionais">Despesas Operacionais</SelectItem>
+                      <SelectItem value="Outros">Outros</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Valor *</Label>
+                  <Input name="valor" type="number" step="0.01" required defaultValue={editingFluxo.valor} />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>Cancelar</Button>
+                <Button type="submit" disabled={updateFluxo.isPending}>
+                  {updateFluxo.isPending ? "Salvando..." : "Salvar Alterações"}
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <div className="grid grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
@@ -224,14 +323,23 @@ export default function FluxoCaixa() {
                       R$ {parseFloat(fluxo.valor || "0").toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(fluxo.id, fluxo.descricao || "Movimentação")}
-                        disabled={deleteFluxo.isPending}
-                      >
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </Button>
+                      <div className="flex gap-2 justify-end">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEdit(fluxo)}
+                        >
+                          <Pencil className="w-4 h-4 text-primary" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(fluxo.id, fluxo.descricao || "Movimentação")}
+                          disabled={deleteFluxo.isPending}
+                        >
+                          <Trash2 className="w-4 h-4 text-destructive" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

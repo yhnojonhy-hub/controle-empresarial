@@ -7,12 +7,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Loader2, Calculator, Trash2 } from "lucide-react";
+import { Plus, Loader2, Calculator, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Impostos() {
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [formData, setFormData] = useState<any>({});
+  const [editingImposto, setEditingImposto] = useState<any>(null);
 
   const utils = trpc.useUtils();
   const { data: impostos, isLoading } = trpc.impostos.list.useQuery();
@@ -30,6 +32,18 @@ export default function Impostos() {
     },
   });
 
+  const updateImposto = trpc.impostos.update.useMutation({
+    onSuccess: () => {
+      utils.impostos.list.invalidate();
+      setEditOpen(false);
+      setEditingImposto(null);
+      toast.success("Imposto atualizado com sucesso!");
+    },
+    onError: (error) => {
+      toast.error("Erro ao atualizar imposto: " + error.message);
+    },
+  });
+
   const deleteImposto = trpc.impostos.delete.useMutation({
     onSuccess: () => {
       utils.impostos.list.invalidate();
@@ -40,9 +54,34 @@ export default function Impostos() {
     },
   });
 
+  const handleEdit = (imposto: any) => {
+    setEditingImposto({
+      ...imposto,
+      mesAno: imposto.mesAno,
+      vencimento: imposto.vencimento ? new Date(imposto.vencimento).toISOString().split('T')[0] : "",
+    });
+    setEditOpen(true);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createImposto.mutate(formData);
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    updateImposto.mutate({
+      id: editingImposto.id,
+      data: {
+        empresaId: parseInt(formData.get("empresaId") as string),
+        mesAno: formData.get("mesAno") as string,
+        tipo: formData.get("tipo") as string,
+        baseCalculo: formData.get("baseCalculo") as string,
+        aliquota: formData.get("aliquota") as string,
+        vencimento: formData.get("vencimento") as string,
+      },
+    });
   };
 
   const handleDelete = (id: number, tipo: string) => {
@@ -179,6 +218,108 @@ export default function Impostos() {
         </Dialog>
       </div>
 
+      {/* Dialog de Edição */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Editar Imposto</DialogTitle>
+            <DialogDescription>Atualize os dados do imposto</DialogDescription>
+          </DialogHeader>
+          {editingImposto && (
+            <form onSubmit={handleUpdateSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="edit-empresaId">Empresa *</Label>
+                <Select name="empresaId" required defaultValue={editingImposto.empresaId?.toString()}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {empresas?.map((e) => (
+                      <SelectItem key={e.id} value={e.id.toString()}>
+                        {e.nomeFantasia || e.razaoSocial}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-mesAno">Mês/Ano *</Label>
+                  <Input
+                    id="edit-mesAno"
+                    name="mesAno"
+                    type="month"
+                    required
+                    defaultValue={editingImposto.mesAno}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-tipo">Tipo de Imposto *</Label>
+                  <Select name="tipo" required defaultValue={editingImposto.tipo}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ICMS">ICMS</SelectItem>
+                      <SelectItem value="ISS">ISS</SelectItem>
+                      <SelectItem value="PIS">PIS</SelectItem>
+                      <SelectItem value="COFINS">COFINS</SelectItem>
+                      <SelectItem value="IRPJ">IRPJ</SelectItem>
+                      <SelectItem value="CSLL">CSLL</SelectItem>
+                      <SelectItem value="Simples Nacional">Simples Nacional</SelectItem>
+                      <SelectItem value="Outros">Outros</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-baseCalculo">Base de Cálculo *</Label>
+                  <Input
+                    id="edit-baseCalculo"
+                    name="baseCalculo"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingImposto.baseCalculo}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-aliquota">Alíquota (%) *</Label>
+                  <Input
+                    id="edit-aliquota"
+                    name="aliquota"
+                    type="number"
+                    step="0.01"
+                    required
+                    defaultValue={editingImposto.aliquota}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="edit-vencimento">Vencimento *</Label>
+                <Input
+                  id="edit-vencimento"
+                  name="vencimento"
+                  type="date"
+                  required
+                  defaultValue={editingImposto.vencimento}
+                />
+              </div>
+
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={updateImposto.isPending}>
+                  {updateImposto.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                  Salvar Alterações
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Total de Impostos</CardTitle>
@@ -229,14 +370,23 @@ export default function Impostos() {
                       </TableCell>
                       <TableCell>{new Date(imposto.vencimento).toLocaleDateString("pt-BR")}</TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(imposto.id, imposto.tipo || "Imposto")}
-                          disabled={deleteImposto.isPending}
-                        >
-                          <Trash2 className="w-4 h-4 text-destructive" />
-                        </Button>
+                        <div className="flex gap-2 justify-end">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEdit(imposto)}
+                          >
+                            <Pencil className="w-4 h-4 text-primary" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(imposto.id, imposto.tipo || "Imposto")}
+                            disabled={deleteImposto.isPending}
+                          >
+                            <Trash2 className="w-4 h-4 text-destructive" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

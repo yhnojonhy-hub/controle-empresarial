@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Plus, Users } from "lucide-react";
+import { Plus, Users, Pencil, Trash2 } from "lucide-react";
 
 export default function Funcionarios() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingFuncionario, setEditingFuncionario] = useState<any>(null);
   const utils = trpc.useUtils();
 
   const { data: funcionarios, isLoading } = trpc.funcionarios.list.useQuery();
@@ -24,12 +26,32 @@ export default function Funcionarios() {
     },
   });
 
+  const updateMutation = trpc.funcionarios.update.useMutation({
+    onSuccess: () => {
+      toast.success("Funcionário atualizado com sucesso!");
+      utils.funcionarios.list.invalidate();
+      setEditOpen(false);
+      setEditingFuncionario(null);
+    },
+    onError: (error) => {
+      toast.error(`Erro: ${error.message}`);
+    },
+  });
+
   const deleteMutation = trpc.funcionarios.delete.useMutation({
     onSuccess: () => {
       toast.success("Funcionário excluído!");
       utils.funcionarios.list.invalidate();
     },
   });
+
+  const handleEdit = (funcionario: any) => {
+    setEditingFuncionario({
+      ...funcionario,
+      dataAdmissao: funcionario.dataAdmissao ? new Date(funcionario.dataAdmissao).toISOString().split('T')[0] : "",
+    });
+    setEditOpen(true);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,6 +65,24 @@ export default function Funcionarios() {
       beneficios: formData.get("beneficios") as string,
       dataAdmissao: formData.get("dataAdmissao") as string,
       status: formData.get("status") as any,
+    });
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    updateMutation.mutate({
+      id: editingFuncionario.id,
+      data: {
+        empresaId: parseInt(formData.get("empresaId") as string),
+        nome: formData.get("nome") as string,
+        cpf: formData.get("cpf") as string,
+        cargo: formData.get("cargo") as string,
+        salarioBase: formData.get("salarioBase") as string,
+        beneficios: formData.get("beneficios") as string,
+        dataAdmissao: formData.get("dataAdmissao") as string,
+        status: formData.get("status") as any,
+      },
     });
   };
 
@@ -124,6 +164,80 @@ export default function Funcionarios() {
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* Dialog de Edição */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Editar Funcionário</DialogTitle>
+          </DialogHeader>
+          {editingFuncionario && (
+            <form onSubmit={handleUpdateSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label>Empresa *</Label>
+                <Select name="empresaId" required defaultValue={editingFuncionario.empresaId?.toString()}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {empresas?.map((e) => (
+                      <SelectItem key={e.id} value={e.id.toString()}>
+                        {e.nomeFantasia || e.razaoSocial}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Nome Completo *</Label>
+                  <Input name="nome" required defaultValue={editingFuncionario.nome} />
+                </div>
+                <div className="space-y-2">
+                  <Label>CPF *</Label>
+                  <Input name="cpf" required defaultValue={editingFuncionario.cpf} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Cargo *</Label>
+                  <Input name="cargo" required defaultValue={editingFuncionario.cargo} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Data Admissão *</Label>
+                  <Input name="dataAdmissao" type="date" required defaultValue={editingFuncionario.dataAdmissao} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Salário Base *</Label>
+                  <Input name="salarioBase" type="number" step="0.01" required defaultValue={editingFuncionario.salarioBase} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Benefícios</Label>
+                  <Input name="beneficios" type="number" step="0.01" defaultValue={editingFuncionario.beneficios} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Status *</Label>
+                <Select name="status" required defaultValue={editingFuncionario.status}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Contratado">Contratado</SelectItem>
+                    <SelectItem value="Demitido">Demitido</SelectItem>
+                    <SelectItem value="Afastado">Afastado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>Cancelar</Button>
+                <Button type="submit" disabled={updateMutation.isPending}>
+                  {updateMutation.isPending ? "Salvando..." : "Salvar Alterações"}
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <div className="grid gap-4">
         {funcionarios && funcionarios.length > 0 ? (
           funcionarios.map((func) => {
@@ -137,9 +251,14 @@ export default function Funcionarios() {
                       <CardTitle>{func.nome}</CardTitle>
                       <CardDescription>{func.cargo} • {empresa?.nomeFantasia || empresa?.razaoSocial}</CardDescription>
                     </div>
-                    <Button variant="destructive" size="sm" onClick={() => deleteMutation.mutate({ id: func.id })}>
-                      Excluir
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="sm" onClick={() => handleEdit(func)}>
+                        <Pencil className="h-4 w-4 text-primary" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate({ id: func.id })}>
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>

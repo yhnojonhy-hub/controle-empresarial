@@ -258,3 +258,12 @@
 - [ ] Adicionar botão de editar na página Alertas com modal
 - [ ] Criar testes unitários para todos os procedures update
 - [ ] Validar funcionalidade de edição em todas as páginas
+
+
+## Replicação de Padrão de Edição Inline
+- [x] Implementar botão Pencil e modal de edição na página Contas
+- [x] Implementar botão Pencil e modal de edição na página Funcionários
+- [x] Implementar botão Pencil e modal de edição na página FluxoCaixa
+- [x] Implementar botão Pencil e modal de edição na página Impostos
+- [x] Testar funcionalidade de edição em todas as 4 páginas
+- [x] Validar feedback visual e toasts em todas as páginas
