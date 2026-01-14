@@ -181,3 +181,8 @@
 - [x] Criar testes práticos para Alertas (listagem e marcar como lido)
 - [x] Adicionar botão de deletar empresas no painel
 - [x] Testar delete de empresas com confirmação
+
+
+## Correções de Procedures
+- [x] Adicionar procedure delete no router KPIs
+- [x] Adicionar procedure delete em todos os routers faltantes (Contas, Funcionários, FluxoCaixa, Impostos)

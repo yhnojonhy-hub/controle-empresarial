@@ -127,6 +127,12 @@ const kpisRouter = router({
     .mutation(async ({ input }) => {
       return await db.createIndicadorKpi(input as any);
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteIndicadorKpi(input.id);
+    }),
 });
 
 // ========== Contas Router ==========
@@ -167,6 +173,12 @@ const contasRouter = router({
       
       return conta;
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteConta(input.id);
+    }),
 });
 
 // ========== Funcionários Router ==========
@@ -187,6 +199,12 @@ const funcionariosRouter = router({
     }))
     .mutation(async ({ input }) => {
       return await db.createFuncionario(input as any);
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteFuncionario(input.id);
     }),
 });
 
@@ -265,16 +283,18 @@ const fluxoCaixaRouter = router({
     .input(z.object({
       data: z.string(),
       tipo: z.enum(["Entrada", "Saida"]),
-      empresaId: z.number().optional(),
       descricao: z.string(),
-      categoria: z.string().optional(),
+      categoria: z.string(),
       valor: z.string(),
-      metodoPagamento: z.string().optional(),
-      referencia: z.string().optional(),
-      observacoes: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       return await db.createFluxoCaixa(input as any);
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteFluxoCaixa(input.id);
     }),
 });
 
@@ -287,17 +307,20 @@ const impostosRouter = router({
   create: protectedProcedure
     .input(z.object({
       empresaId: z.number(),
-      tipoImposto: z.string(),
       mesAno: z.string().optional().default(new Date().toISOString().slice(0, 7)),
+      tipo: z.string(),
       baseCalculo: z.string(),
       aliquota: z.string(),
-      valor: z.string(),
       vencimento: z.string(),
-      status: z.enum(["Pendente", "Pago", "Atrasado"]).optional().default("Pendente"),
-      observacoes: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       return await db.createImposto(input as any);
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteImposto(input.id);
     }),
 });
 
