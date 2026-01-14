@@ -161,3 +161,15 @@
 - [x] Testar criação de KPI com todos os campos
 
 - [x] Corrigir validação do campo vencimento no formulário Contas
+
+
+## Testes e Melhorias de Formulários
+- [x] Testar formulário de Empresas (campos obrigatórios e CNPJ)
+- [x] Testar formulário de Funcionários (CPF e valores)
+- [x] Testar formulário de Fluxo de Caixa
+- [x] Testar formulário de Impostos
+- [x] Corrigir validações encontradas em todos os formulários
+- [ ] Adicionar date pickers para campos de data
+- [ ] Implementar validação de valores numéricos positivos
+- [x] Criar script de dados de exemplo (seed data)
+- [x] Popular banco com dados de demonstração

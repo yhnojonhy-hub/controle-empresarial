@@ -118,7 +118,7 @@ const kpisRouter = router({
   create: protectedProcedure
     .input(z.object({
       empresaId: z.number(),
-      periodo: z.string().optional().default(new Date().toISOString().slice(0, 7)), // YYYY-MM
+      mesAno: z.string().optional().default(new Date().toISOString().slice(0, 7)), // YYYY-MM
       faturamentoBruto: z.string(),
       impostos: z.string().optional().default("0"),
       custosFixos: z.string().optional().default("0"),
@@ -180,10 +180,10 @@ const funcionariosRouter = router({
       nome: z.string(),
       cpf: z.string(),
       cargo: z.string(),
-      tipoContrato: z.enum(["CLT", "PJ", "Estagiario", "Temporario"]).optional(),
+      tipoContrato: z.enum(["CLT", "PJ", "Estagiario", "Temporario"]).optional().default("CLT"),
       salarioBase: z.string(),
-      beneficios: z.string().optional(),
-      status: z.enum(["Contratado", "Demitido", "Afastado"]).optional(),
+      beneficios: z.string().optional().default("0"),
+      status: z.enum(["Contratado", "Demitido", "Afastado"]).optional().default("Contratado"),
     }))
     .mutation(async ({ input }) => {
       return await db.createFuncionario(input as any);
