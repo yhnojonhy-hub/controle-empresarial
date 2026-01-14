@@ -15,6 +15,13 @@
       "when": 1768244612260,
       "tag": "0001_slippery_network",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1768359003068,
+      "tag": "0002_luxuriant_alice",
+      "breakpoints": true
     }
   ]
 }

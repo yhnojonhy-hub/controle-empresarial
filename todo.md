@@ -435,3 +435,57 @@
 - [x] Validar não duplicação de alertas
 - [x] Testar execução manual via endpoint
 - [x] Validar agendamento automático
+
+
+## Página de Controle Financeiro Consolidado
+
+### 1. Schema e Banco de Dados
+- [ ] Criar tabela `contas_bancarias` com campos: id, empresaId, nomeConta, banco, agencia, conta, tipo (PJ/PF), saldoAtual, saldoAnterior, dataAtualizacao, status
+- [ ] Adicionar índices para empresaId e status
+- [ ] Criar migration com `pnpm db:push`
+- [ ] Adicionar tipos TypeScript para ContaBancaria
+
+### 2. Procedures tRPC
+- [ ] Criar procedure `contasBancarias.list` (listar todas as contas)
+- [ ] Criar procedure `contasBancarias.create` (criar nova conta)
+- [ ] Criar procedure `contasBancarias.update` (atualizar saldo e dados)
+- [ ] Criar procedure `contasBancarias.delete` (deletar conta)
+- [ ] Criar procedure `consolidacao.obterSaldosPorEmpresa` (consolidar por empresa)
+- [ ] Criar procedure `consolidacao.obterSaldoGeral` (saldo total do grupo)
+- [ ] Criar procedure `consolidacao.obterIndicadores` (KPIs financeiros)
+
+### 3. Serviço de Consolidação
+- [ ] Criar `financial-consolidation.service.ts`
+- [ ] Implementar função de cálculo de saldo por empresa
+- [ ] Implementar função de cálculo de saldo geral
+- [ ] Implementar função de cálculo de variação diária/mensal
+- [ ] Implementar função de cálculo de posição de caixa
+- [ ] Implementar função de cruzamento com contas a pagar/receber
+- [ ] Adicionar logging estruturado
+
+### 4. Frontend - Página Controle Financeiro
+- [ ] Criar arquivo `ControleFinanceiro.tsx`
+- [ ] Implementar listagem de contas bancárias por empresa
+- [ ] Implementar formulário de cadastro de conta
+- [ ] Implementar modal de edição com atualização de saldo
+- [ ] Implementar botões de deletar com confirmação
+- [ ] Adicionar seção de consolidação por empresa
+- [ ] Adicionar seção de consolidação geral (grupo)
+- [ ] Implementar cards de indicadores (saldo total, variação, etc)
+- [ ] Implementar gráfico de evolução de saldo
+- [ ] Adicionar tabela de histórico de movimentações
+
+### 5. Integração com Dashboard
+- [ ] Adicionar widget de saldo consolidado no Dashboard CEO
+- [ ] Adicionar widget de saldo por empresa
+- [ ] Integrar dados em tempo real com WebSocket (opcional)
+- [ ] Adicionar link direto para página de Controle Financeiro
+
+### 6. Testes e Validação
+- [ ] Testar cadastro de contas bancárias
+- [ ] Testar atualização de saldos
+- [ ] Validar consolidação por empresa
+- [ ] Validar consolidação geral
+- [ ] Testar cálculo de indicadores
+- [ ] Validar integração com Dashboard
+- [ ] Testar responsividade mobile

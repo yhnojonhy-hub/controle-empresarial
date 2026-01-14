@@ -187,3 +187,27 @@ export const alertas = mysqlTable("alertas", {
 
 export type Alerta = typeof alertas.$inferSelect;
 export type InsertAlerta = typeof alertas.$inferInsert;
+
+
+/**
+ * Contas Bancárias PJ - Gestão de contas bancárias por empresa
+ */
+export const contasBancarias = mysqlTable("contas_bancarias", {
+  id: int("id").autoincrement().primaryKey(),
+  empresaId: int("empresaId").notNull(),
+  nomeConta: varchar("nomeConta", { length: 255 }).notNull(),
+  banco: varchar("banco", { length: 100 }).notNull(),
+  agencia: varchar("agencia", { length: 20 }).notNull(),
+  conta: varchar("conta", { length: 30 }).notNull(),
+  tipo: mysqlEnum("tipo", ["PJ", "PF"]).default("PJ").notNull(),
+  saldoAtual: decimal("saldoAtual", { precision: 15, scale: 2 }).notNull().default("0"),
+  saldoAnterior: decimal("saldoAnterior", { precision: 15, scale: 2 }).notNull().default("0"),
+  dataAtualizacao: timestamp("dataAtualizacao").defaultNow().onUpdateNow().notNull(),
+  status: mysqlEnum("status", ["Ativa", "Inativa", "Encerrada"]).default("Ativa").notNull(),
+  observacoes: text("observacoes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ContaBancaria = typeof contasBancarias.$inferSelect;
+export type InsertContaBancaria = typeof contasBancarias.$inferInsert;

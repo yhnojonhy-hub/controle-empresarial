@@ -19,6 +19,7 @@ import { empresaService } from "./services/empresa.service";
 import { invokeLLM } from "./_core/llm";
 import * as db from "./db";
 import { parseDate } from "./helpers/date-converter";
+import { contasBancariasRouter } from "./routers-bancarias";
 
 // ========== Schemas Reutilizáveis (DRY) ==========
 const empresaCreateSchema = z.object({
@@ -461,6 +462,7 @@ export const appRouter = router({
   fluxoCaixa: fluxoCaixaRouter,
   impostos: impostosRouter,
   alertas: alertasRouter,
+  contasBancarias: contasBancariasRouter,
   chatbot: chatbotRouter,
 });
 
