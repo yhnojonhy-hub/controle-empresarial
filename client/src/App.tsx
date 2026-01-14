@@ -15,6 +15,7 @@ import Impostos from "./pages/Impostos";
 import Alertas from "./pages/Alertas";
 import ControleFinanceiro from "./pages/ControleFinanceiro";
 import Reconciliacao from "./pages/Reconciliacao";
+// Nota: Contas Bancárias será criada ou mapeada para uma página existente
 
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/alertas" component={Alertas} />
       <Route path="/controle-financeiro" component={ControleFinanceiro} />
       <Route path="/reconciliacao" component={Reconciliacao} />
+      <Route path="/contas-bancarias" component={ControleFinanceiro} />
 
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

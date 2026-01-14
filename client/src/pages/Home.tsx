@@ -13,7 +13,10 @@ import {
   DollarSign,
   TrendingDown,
   Wallet,
-  UserCheck
+  UserCheck,
+  BarChart3,
+  RefreshCw,
+  Landmark
 } from "lucide-react";
 import { Link } from "wouter";
 import { DashboardCharts } from "@/components/DashboardCharts";
@@ -82,6 +85,30 @@ export default function Home() {
       href: "/alertas",
       color: "text-yellow-600",
       bgColor: "bg-yellow-50",
+    },
+    {
+      title: "Controle Financeiro",
+      description: "Gestão centralizada de finanças",
+      icon: BarChart3,
+      href: "/controle-financeiro",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
+    {
+      title: "Reconciliação",
+      description: "Conciliação de contas e saldos",
+      icon: RefreshCw,
+      href: "/reconciliacao",
+      color: "text-teal-600",
+      bgColor: "bg-teal-50",
+    },
+    {
+      title: "Contas Bancárias",
+      description: "Gestão de contas e saldos",
+      icon: Landmark,
+      href: "/contas-bancarias",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
     },
   ];
 
