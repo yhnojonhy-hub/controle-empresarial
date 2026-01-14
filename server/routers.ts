@@ -255,6 +255,20 @@ Pergunta do usuário: ${input.message}
     }),
 });
 
+// ========== Fluxo de Caixa Router ==========
+const fluxoCaixaRouter = router({
+  list: protectedProcedure.query(async () => {
+    return await db.getFluxoCaixa();
+  }),
+});
+
+// ========== Impostos Router ==========
+const impostosRouter = router({
+  list: protectedProcedure.query(async () => {
+    return await db.getImpostos();
+  }),
+});
+
 // ========== App Router Principal ==========
 export const appRouter = router({
   system: systemRouter,
@@ -264,6 +278,8 @@ export const appRouter = router({
   kpis: kpisRouter,
   contas: contasRouter,
   funcionarios: funcionariosRouter,
+  fluxoCaixa: fluxoCaixaRouter,
+  impostos: impostosRouter,
   alertas: alertasRouter,
   chatbot: chatbotRouter,
 });

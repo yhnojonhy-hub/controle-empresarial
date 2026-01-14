@@ -143,3 +143,13 @@
 - [x] Criar router dashboard.summary para resolver erro na Home
 - [x] Implementar cálculos de indicadores em tempo real
 - [x] Testar correção com usuário autenticado
+
+
+## Testes Completos de Páginas
+- [x] Criar testes completos para FluxoCaixa router (CRUD + cálculo de saldo)
+- [x] Criar testes completos para Impostos router (CRUD + cálculo de valor)
+- [x] Expandir testes de KPI (create, update, delete, cálculos)
+- [x] Expandir testes de Contas (create, update, delete, alertas)
+- [x] Expandir testes de Funcionários (create, update, delete)
+- [x] Criar testes de integração para fluxos completos
+- [x] Validar cobertura de testes em 100% dos routers
