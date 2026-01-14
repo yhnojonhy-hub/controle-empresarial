@@ -65,7 +65,6 @@ export default function Kpi() {
       impostos: formData.get("impostos") as string,
       custosFixos: formData.get("custosFixos") as string,
       custosVariaveis: formData.get("custosVariaveis") as string,
-      observacoes: formData.get("observacoes") as string,
     });
   };
 

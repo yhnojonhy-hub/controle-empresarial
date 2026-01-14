@@ -57,7 +57,6 @@ export default function Funcionarios() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     createMutation.mutate({
-      empresaId: parseInt(formData.get("empresaId") as string),
       nome: formData.get("nome") as string,
       cpf: formData.get("cpf") as string,
       cargo: formData.get("cargo") as string,
@@ -74,7 +73,6 @@ export default function Funcionarios() {
     updateMutation.mutate({
       id: editingFuncionario.id,
       data: {
-        empresaId: parseInt(formData.get("empresaId") as string),
         nome: formData.get("nome") as string,
         cpf: formData.get("cpf") as string,
         cargo: formData.get("cargo") as string,

@@ -360,7 +360,7 @@ export default function Impostos() {
                   return (
                     <TableRow key={imposto.id}>
                       <TableCell>{imposto.mesAno}</TableCell>
-                      <TableCell className="font-medium">{imposto.tipo}</TableCell>
+                      <TableCell className="font-medium">{imposto.tipoImposto}</TableCell>
                       <TableCell className="text-right">
                         R$ {parseFloat(imposto.baseCalculo || "0").toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                       </TableCell>
@@ -381,7 +381,7 @@ export default function Impostos() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleDelete(imposto.id, imposto.tipo || "Imposto")}
+                            onClick={() => handleDelete(imposto.id, imposto.tipoImposto || "Imposto")}
                             disabled={deleteImposto.isPending}
                           >
                             <Trash2 className="w-4 h-4 text-destructive" />

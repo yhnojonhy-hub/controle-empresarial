@@ -67,7 +67,7 @@ export default function Contas() {
       descricao: formData.get("descricao") as string,
       categoria: formData.get("categoria") as string,
       valor: formData.get("valor") as string,
-      dataVencimento: formData.get("dataVencimento") as string,
+      vencimento: formData.get("vencimento") as string,
       status: formData.get("status") as any,
       metodoPagamento: formData.get("metodoPagamento") as string,
       observacoes: formData.get("observacoes") as string,
@@ -85,7 +85,7 @@ export default function Contas() {
         descricao: formData.get("descricao") as string,
         categoria: formData.get("categoria") as string,
         valor: formData.get("valor") as string,
-        dataVencimento: formData.get("dataVencimento") as string,
+        vencimento: formData.get("vencimento") as string,
         status: formData.get("status") as any,
         metodoPagamento: formData.get("metodoPagamento") as string,
         observacoes: formData.get("observacoes") as string,
@@ -330,7 +330,7 @@ export default function Contas() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">Vencimento:</span>
-                      <div>{new Date(conta.dataVencimento).toLocaleDateString("pt-BR")}</div>
+                      <div>{new Date(conta.vencimento).toLocaleDateString("pt-BR")}</div>
                     </div>
                     <div>
                       <Badge>{conta.status}</Badge>

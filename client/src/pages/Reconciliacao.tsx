@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { AlertCircle, CheckCircle2, Clock, TrendingDown, BarChart3 } from 'lucide-react';
 import { useAuth } from '@/_core/hooks/useAuth';
-import { useRouter } from 'wouter';
 
 
 interface ItemReconciliacao {
@@ -39,7 +38,6 @@ interface ResumoReconciliacao {
  */
 export default function Reconciliacao() {
   const { user } = useAuth();
-  const navigate = useRouter()[1];
   const [selectedEmpresa, setSelectedEmpresa] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'Todos' | 'Reconciliado' | 'Pendente'>('Todos');
   const [searchTerm, setSearchTerm] = useState('');
