@@ -14,6 +14,7 @@ import FluxoCaixa from "./pages/FluxoCaixa";
 import Impostos from "./pages/Impostos";
 import Alertas from "./pages/Alertas";
 import ControleFinanceiro from "./pages/ControleFinanceiro";
+import Reconciliacao from "./pages/Reconciliacao";
 
 
 function Router() {
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/impostos" component={Impostos} />
       <Route path="/alertas" component={Alertas} />
       <Route path="/controle-financeiro" component={ControleFinanceiro} />
+      <Route path="/reconciliacao" component={Reconciliacao} />
 
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

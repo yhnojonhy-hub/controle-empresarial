@@ -489,3 +489,35 @@
 - [ ] Testar cálculo de indicadores
 - [ ] Validar integração com Dashboard
 - [ ] Testar responsividade mobile
+
+
+## Tabela de Reconciliação Bancária
+
+### 1. Backend - Procedures e Serviços
+- [ ] Criar procedure `reconciliacao.obter` para buscar dados consolidados
+- [ ] Criar serviço de cálculo de reconciliação (saldo bancário vs. contábil)
+- [ ] Implementar lógica de cruzamento de contas a pagar/receber com saldo bancário
+- [ ] Calcular discrepâncias e diferenças
+- [ ] Implementar filtros por empresa, período e status
+- [ ] Integrar logger em todas as operações
+
+### 2. Frontend - Página de Reconciliação
+- [ ] Criar página Reconciliacao.tsx com tabela completa
+- [ ] Implementar colunas: Data, Tipo, Descrição, Valor, Saldo Bancário, Saldo Contábil, Discrepância
+- [ ] Adicionar filtros: Empresa, Período, Status (Reconciliado/Pendente)
+- [ ] Implementar busca por descrição/referência
+- [ ] Adicionar cores para destacar discrepâncias (verde=OK, amarelo=Atenção, vermelho=Crítico)
+- [ ] Implementar botão de marcar como reconciliado
+- [ ] Adicionar resumo de totalizadores (saldo bancário, saldo contábil, diferença total)
+
+### 3. Integração
+- [ ] Integrar no App.tsx e adicionar rota de navegação
+- [ ] Adicionar link na sidebar/menu principal
+- [ ] Integrar dados no Dashboard CEO (widget de status de reconciliação)
+
+### 4. Testes e Validação
+- [ ] Testar cruzamento de dados com contas reais
+- [ ] Validar cálculo de discrepâncias
+- [ ] Testar filtros e busca
+- [ ] Verificar performance com grande volume de dados
+- [ ] Validar responsividade da página
