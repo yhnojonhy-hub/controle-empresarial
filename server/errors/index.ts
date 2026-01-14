@@ -256,24 +256,30 @@ export function formatErrorResponse(error: unknown) {
 }
 
 /**
- * Logger de erros (integração futura com sistema de logging)
+ * Logger de erros integrado com Winston
  * @param error - Erro a ser logado
  * @param context - Contexto adicional
  */
 export function logError(error: unknown, context?: Record<string, any>) {
-  const timestamp = new Date().toISOString();
+  // Import dinâmico para evitar dependência circular
+  const logger = require("../logger").default;
+  
   const errorMessage = getErrorMessage(error);
   const statusCode = getErrorStatusCode(error);
+  const isOperational = error instanceof AppError ? error.isOperational : false;
 
-  console.error(`[${timestamp}] ERROR [${statusCode}]:`, errorMessage);
-  
-  if (context) {
-    console.error("Context:", JSON.stringify(context, null, 2));
+  // Log com nível apropriado
+  if (isOperational) {
+    logger.warn(errorMessage, {
+      ...context,
+      statusCode,
+      operational: true,
+    });
+  } else {
+    logger.error(errorMessage, error instanceof Error ? error : undefined, {
+      ...context,
+      statusCode,
+      operational: false,
+    });
   }
-
-  if (error instanceof Error && error.stack) {
-    console.error("Stack:", error.stack);
-  }
-
-  // TODO: Integrar com sistema de logging externo (Sentry, LogRocket, etc)
 }

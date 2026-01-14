@@ -7,6 +7,8 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { requestLogger, errorLogger } from "../middleware/request-logger";
+import logger from "../logger";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -30,6 +32,10 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  
+  // Middleware de logging (ANTES de tudo)
+  app.use(requestLogger);
+  
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -54,12 +60,18 @@ async function startServer() {
   const port = await findAvailablePort(preferredPort);
 
   if (port !== preferredPort) {
-    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
+    logger.warn(`Port ${preferredPort} is busy, using port ${port} instead`, { context: "Server" });
   }
 
+  // Middleware de erro (DEPOIS de tudo)
+  app.use(errorLogger);
+
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    logger.info(`Server running on http://localhost:${port}/`, { context: "Server", port });
   });
 }
 
-startServer().catch(console.error);
+startServer().catch(err => {
+  logger.error("Failed to start server", err, { context: "Server" });
+  process.exit(1);
+});

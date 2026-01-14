@@ -14,6 +14,7 @@ import { EmpresaRepository } from "../repositories/empresa.repository";
 import { cnpjService, CNPJService } from "./cnpj.service";
 import type { Empresa, InsertEmpresa } from "../../drizzle/schema";
 import { notifyOwner } from "../_core/notification";
+import logger from "../logger";
 
 export class EmpresaService extends BaseService<Empresa> {
   constructor(
@@ -27,7 +28,10 @@ export class EmpresaService extends BaseService<Empresa> {
    * Consulta dados de CNPJ em APIs externas
    */
   async consultarCNPJ(cnpj: string) {
-    return await this.cnpjService.consultar(cnpj);
+    logger.info("Consultando CNPJ", { context: "EmpresaService", cnpj });
+    const result = await this.cnpjService.consultar(cnpj);
+    logger.info("CNPJ consultado com sucesso", { context: "EmpresaService", cnpj });
+    return result;
   }
 
   /**
@@ -35,13 +39,20 @@ export class EmpresaService extends BaseService<Empresa> {
    * SRP: Orquestra operações mas delega execução
    */
   async createWithNotification(data: InsertEmpresa): Promise<Empresa> {
+    logger.info("Criando nova empresa", { context: "EmpresaService", cnpj: data.cnpj });
     const empresa = await this.create(data);
+    
+    logger.audit("CREATE", "Empresa", empresa.id, { 
+      context: "EmpresaService",
+      cnpj: empresa.cnpj,
+      nomeFantasia: empresa.nomeFantasia 
+    });
     
     // Notificar CEO sobre nova empresa (fire and forget)
     notifyOwner({
       title: "Nova Empresa Cadastrada",
       content: `${empresa.nomeFantasia || empresa.razaoSocial} (${empresa.cnpj}) foi adicionada ao sistema.`,
-    }).catch(console.error);
+    }).catch(err => logger.error("Falha ao notificar CEO", err, { context: "EmpresaService" }));
 
     return empresa;
   }

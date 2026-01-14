@@ -326,3 +326,40 @@
 - [ ] Reduzir complexidade ciclomática
 - [ ] Otimizar re-renders no frontend
 - [ ] Implementar lazy loading
+
+
+## Implementação de Sistema de Logging Profissional (Winston)
+
+### 1. Instalação e Configuração
+- [x] Instalar Winston e dependências (winston, winston-daily-rotate-file)
+- [x] Criar configuração de logging centralizada
+- [x] Definir níveis de log (error, warn, info, http, debug)
+- [x] Configurar formatos de saída (JSON, colorido para console)
+
+### 2. Logger Centralizado
+- [x] Criar logger principal com transportes múltiplos
+- [x] Configurar transporte para console (desenvolvimento)
+- [x] Configurar transporte para arquivo com rotação diária
+- [x] Configurar transporte para arquivo de erros separado
+- [x] Implementar formatação customizada com timestamp e contexto
+
+### 3. Middleware de Rastreamento
+- [x] Criar middleware para gerar request ID único
+- [x] Implementar logging automático de todas as requisições HTTP
+- [x] Capturar método, URL, status code, tempo de resposta
+- [x] Adicionar contexto de usuário autenticado
+- [x] Implementar correlação de logs por request ID
+
+### 4. Integração com Sistema
+- [x] Integrar logger em todos os services
+- [x] Integrar logger em error handlers
+- [x] Substituir console.log por logger estruturado
+- [x] Adicionar logs de auditoria (create, update, delete)
+- [x] Implementar logs de performance (queries lentas)
+
+### 5. Testes e Validação
+- [x] Criar testes para logger
+- [x] Validar rotação de arquivos
+- [x] Testar diferentes níveis de log
+- [x] Verificar formato JSON dos logs
+- [x] Validar rastreamento de requisições
