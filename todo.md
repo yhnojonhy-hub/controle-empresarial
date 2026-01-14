@@ -267,3 +267,62 @@
 - [x] Implementar botão Pencil e modal de edição na página Impostos
 - [x] Testar funcionalidade de edição em todas as 4 páginas
 - [x] Validar feedback visual e toasts em todas as páginas
+
+
+## Refatoração Completa do Código (SOLID, DRY, KISS)
+
+### 1. Análise e Planejamento
+- [ ] Analisar estrutura atual do projeto
+- [ ] Identificar code smells e anti-patterns
+- [ ] Mapear dependências e acoplamentos
+- [ ] Criar plano de refatoração detalhado
+
+### 2. Arquitetura em Camadas
+- [x] Criar camada de Services (lógica de negócio)
+- [x] Criar camada de Validators (validação centralizada)
+- [x] Criar camada de Types (tipos compartilhados)
+- [x] Criar camada de Utils (funções auxiliares)
+- [x] Criar camada de Constants (constantes do sistema)
+- [x] Criar camada de Errors (classes de erro customizadas)
+
+### 3. Refatoração Backend (routers.ts)
+- [ ] Extrair lógica de negócio para Services
+- [ ] Aplicar Single Responsibility Principle
+- [ ] Padronizar tratamento de erros
+- [ ] Implementar validação de entrada
+- [ ] Remover código duplicado
+
+### 4. Refatoração Database (db.ts)
+- [ ] Aplicar Repository Pattern
+- [ ] Centralizar queries SQL
+- [ ] Implementar tratamento de erros robusto
+- [ ] Adicionar logs estruturados
+- [ ] Otimizar queries para performance
+
+### 5. Segurança e Validação
+- [ ] Implementar validação de entrada em todos os endpoints
+- [ ] Sanitizar dados antes de inserir no banco
+- [ ] Validar tipos e formatos (CNPJ, CPF, datas)
+- [ ] Implementar rate limiting
+- [ ] Adicionar logs de auditoria
+
+### 6. Refatoração Frontend
+- [ ] Extrair lógica de formulários para hooks customizados
+- [ ] Criar componentes reutilizáveis (FormField, DataTable)
+- [ ] Aplicar composição ao invés de herança
+- [ ] Padronizar nomenclatura de variáveis
+- [ ] Remover código duplicado
+
+### 7. Testes e Documentação
+- [ ] Criar testes unitários para Services
+- [ ] Criar testes de integração para Routers
+- [ ] Documentar APIs com JSDoc
+- [ ] Criar README de arquitetura
+- [ ] Documentar padrões de código
+
+### 8. Performance e Otimização
+- [ ] Otimizar queries do banco de dados
+- [ ] Implementar cache quando aplicável
+- [ ] Reduzir complexidade ciclomática
+- [ ] Otimizar re-renders no frontend
+- [ ] Implementar lazy loading
