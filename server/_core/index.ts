@@ -10,8 +10,6 @@ import { serveStatic, setupVite } from "./vite";
 import { requestLogger, errorLogger } from "../middleware/request-logger";
 import logger from "../logger";
 import { iniciarScheduler } from "../scheduler/alert-scheduler";
-import { realtimeService } from "../services/realtime.service";
-import { publicLimiter, userLimiter } from "../middleware/rateLimit";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -39,18 +37,14 @@ async function startServer() {
   // Middleware de logging (ANTES de tudo)
   app.use(requestLogger);
   
-  // Rate limiting
-  app.use(publicLimiter);
-  
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
-  // tRPC API com rate limiting de usuário
+  // tRPC API
   app.use(
     "/api/trpc",
-    userLimiter,
     createExpressMiddleware({
       router: appRouter,
       createContext,
@@ -73,12 +67,8 @@ async function startServer() {
   // Middleware de erro (DEPOIS de tudo)
   app.use(errorLogger);
 
-  // Inicializar WebSocket
-  realtimeService.initialize(server);
-
   server.listen(port, () => {
     logger.info(`Server running on http://localhost:${port}/`, { context: "Server", port });
-    logger.info(`WebSocket disponivel em ws://localhost:${port}/ws`, { context: "WebSocket" });
     
     // Iniciar scheduler de alertas automáticos
     iniciarScheduler();
