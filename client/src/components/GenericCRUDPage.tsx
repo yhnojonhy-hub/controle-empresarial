@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { LoadingButton, LoadingButtonState } from "@/components/LoadingButton";
 
 export interface CRUDField {
   name: string;
@@ -62,6 +63,8 @@ export default function GenericCRUDPage({
   const [editOpen, setEditOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
+  const [createButtonState, setCreateButtonState] = useState<LoadingButtonState>('idle');
+  const [updateButtonState, setUpdateButtonState] = useState<LoadingButtonState>('idle');
 
   const handleEdit = (item: any) => {
     const editData: Record<string, any> = { ...item };
@@ -185,9 +188,15 @@ export default function GenericCRUDPage({
                 <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" disabled={isCreating}>
-                  {isCreating ? "Salvando..." : "Salvar"}
-                </Button>
+                <LoadingButton
+                  type="submit"
+                  state={createButtonState}
+                  successMessage="Criado com sucesso!"
+                  errorMessage="Erro ao criar"
+                  onStateChange={setCreateButtonState}
+                >
+                  Salvar
+                </LoadingButton>
               </div>
             </form>
           </DialogContent>
@@ -248,9 +257,15 @@ export default function GenericCRUDPage({
                 <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" disabled={isUpdating}>
-                  {isUpdating ? "Atualizando..." : "Atualizar"}
-                </Button>
+                <LoadingButton
+                  type="submit"
+                  state={updateButtonState}
+                  successMessage="Atualizado com sucesso!"
+                  errorMessage="Erro ao atualizar"
+                  onStateChange={setUpdateButtonState}
+                >
+                  Atualizar
+                </LoadingButton>
               </div>
             </form>
           )}

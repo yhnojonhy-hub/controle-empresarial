@@ -635,3 +635,12 @@
 - [x] Refatorar Alertas.tsx para usar GenericCRUDPage
 - [x] Testar todas as páginas refatoradas
 - [x] Validar que funcionalidades foram mantidas
+
+
+## Feedback Visual de Carregamento em Botões (CONCLUÍDO)
+
+- [x] Criar componente LoadingButton com spinner e feedback - CONCLUÍDO
+- [x] Integrar LoadingButton no GenericCRUDPage - CONCLUÍDO
+- [x] Adicionar animações de sucesso/erro - CONCLUÍDO (auto-reset 2-3s)
+- [x] Testar em todas as páginas CRUD - CONCLUÍDO
+- [x] Validar experiência do usuário - CONCLUÍDO
