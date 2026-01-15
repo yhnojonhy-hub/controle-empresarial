@@ -110,6 +110,14 @@ export default function Home() {
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
     },
+    {
+      title: "Dashboard Consolidado",
+      description: "Visão consolidada de lucro/prejuízo por empresa",
+      icon: DollarSign,
+      href: "/dashboard-consolidado",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
+    },
   ];
 
   return (

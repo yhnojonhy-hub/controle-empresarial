@@ -596,3 +596,18 @@
 - [ ] 18. Documentação de API
 - [ ] 19. Error Boundary Global
 - [ ] 20. Storybook para Componentes
+
+
+## Consolidação Financeira (NOVA FEATURE - Concluída)
+
+- [x] Criar serviço de consolidação (consolidacao.service.ts)
+- [x] Implementar consolidarDadosEmpresa() - consolida UMA empresa
+- [x] Implementar consolidarTodasEmpresas() - consolida TODAS as empresas
+- [x] Implementar resumoConsolidado() - retorna resumo geral + detalhes
+- [x] Criar procedures tRPC no dashboard router
+- [x] Criar página DashboardConsolidado.tsx
+- [x] Adicionar rota /dashboard-consolidado em App.tsx
+- [x] Adicionar link ao menu principal (11º módulo)
+- [x] Criar testes unitários (consolidacao.service.test.ts)
+- [ ] Executar e validar testes
+- [ ] Testar consolidação com dados reais do banco
