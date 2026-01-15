@@ -26,8 +26,6 @@ function Router() {
       <Route path="/funcionarios" component={Funcionarios} />
       <Route path="/fluxo-caixa" component={FluxoCaixa} />
       <Route path="/impostos" component={Impostos} />
-      <Route path="/alertas" component={Alertas} />
-      <Route path="/contas-bancarias" component={Contas} />
       <Route path="/dashboard-consolidado" component={DashboardConsolidado} />
 
       <Route path="/404" component={NotFound} />

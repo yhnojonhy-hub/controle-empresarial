@@ -644,3 +644,12 @@
 - [x] Adicionar animações de sucesso/erro - CONCLUÍDO (auto-reset 2-3s)
 - [x] Testar em todas as páginas CRUD - CONCLUÍDO
 - [x] Validar experiência do usuário - CONCLUÍDO
+
+
+## Remoção de Duplicação - Contas vs Contas Bancárias (CONCLUÍDA)
+
+- [x] Analisar páginas Contas e Contas Bancárias - CONCLUÍDA
+- [x] Consolidar em página única com abas - Já estava consolidada
+- [x] Remover rota duplicada - CONCLUÍDA
+- [x] Atualizar menu do Dashboard - CONCLUÍDA
+- [x] Testar navegação - CONCLUÍDA

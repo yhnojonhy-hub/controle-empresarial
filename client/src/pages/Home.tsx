@@ -16,7 +16,7 @@ import {
   UserCheck,
   BarChart3,
   RefreshCw,
-  Landmark
+
 } from "lucide-react";
 import { Link } from "wouter";
 import { DashboardCharts } from "@/components/DashboardCharts";
@@ -102,14 +102,7 @@ export default function Home() {
       color: "text-teal-600",
       bgColor: "bg-teal-50",
     },
-    {
-      title: "Contas Bancárias",
-      description: "Gestão de contas e saldos",
-      icon: Landmark,
-      href: "/contas-bancarias",
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50",
-    },
+
     {
       title: "Dashboard Consolidado",
       description: "Visão consolidada de lucro/prejuízo por empresa",
