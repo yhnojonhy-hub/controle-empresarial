@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +20,13 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -25,10 +37,16 @@ export default function DashboardConsolidado() {
     return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}`;
   });
   const [selectedEmpresa, setSelectedEmpresa] = useState<number | null>(null);
-  const [statusFilter, setStatusFilter] = useState<"Todos" | "Lucro" | "Prejuizo" | "Equilibrio">("Todos");
+  const [statusFilter, setStatusFilter] = useState<
+    "Todos" | "Lucro" | "Prejuizo" | "Equilibrio"
+  >("Todos");
 
   // Buscar dados consolidados
-  const { data: resumo, isLoading, error } = trpc.dashboard.resumoConsolidado.useQuery(
+  const {
+    data: resumo,
+    isLoading,
+    error,
+  } = trpc.dashboard.resumoConsolidado.useQuery(
     { mesAno },
     { enabled: !!mesAno }
   );
@@ -85,8 +103,12 @@ export default function DashboardConsolidado() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard Consolidado</h1>
-        <p className="text-slate-600">Visão integrada do desempenho financeiro de todas as empresas</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          Dashboard Consolidado
+        </h1>
+        <p className="text-slate-600">
+          Visão integrada do desempenho financeiro de todas as empresas
+        </p>
       </div>
 
       {/* Seletor de Período */}
@@ -103,13 +125,11 @@ export default function DashboardConsolidado() {
               <Input
                 type="month"
                 value={mesAno}
-                onChange={(e) => setMesAno(e.target.value)}
+                onChange={e => setMesAno(e.target.value)}
                 className="max-w-xs"
               />
             </div>
-            <div className="text-sm text-slate-600">
-              {getMesNome(mesAno)}
-            </div>
+            <div className="text-sm text-slate-600">{getMesNome(mesAno)}</div>
           </div>
         </CardContent>
       </Card>
@@ -163,7 +183,9 @@ export default function DashboardConsolidado() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className={`text-2xl font-bold ${resumo.saldoTotal >= 0 ? "text-green-600" : "text-red-600"}`}>
+                <div
+                  className={`text-2xl font-bold ${resumo.saldoTotal >= 0 ? "text-green-600" : "text-red-600"}`}
+                >
                   {formatarMoeda(resumo.saldoTotal)}
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
@@ -188,13 +210,17 @@ export default function DashboardConsolidado() {
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-slate-600">Com Prejuízo:</span>
+                    <span className="text-sm text-slate-600">
+                      Com Prejuízo:
+                    </span>
                     <Badge className="bg-red-100 text-red-800">
                       {resumo.empresasComPrejuizo}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-slate-600">Em Equilíbrio:</span>
+                    <span className="text-sm text-slate-600">
+                      Em Equilíbrio:
+                    </span>
                     <Badge className="bg-yellow-100 text-yellow-800">
                       {resumo.empresasEmEquilibrio}
                     </Badge>
@@ -217,21 +243,40 @@ export default function DashboardConsolidado() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-200">
-                      <th className="text-left py-3 px-4 font-semibold text-slate-700">Empresa</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-700">Entradas</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-700">Saídas</th>
-                      <th className="text-right py-3 px-4 font-semibold text-slate-700">Saldo</th>
-                      <th className="text-center py-3 px-4 font-semibold text-slate-700">Margem</th>
-                      <th className="text-center py-3 px-4 font-semibold text-slate-700">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold text-slate-700">
+                        Empresa
+                      </th>
+                      <th className="text-right py-3 px-4 font-semibold text-slate-700">
+                        Entradas
+                      </th>
+                      <th className="text-right py-3 px-4 font-semibold text-slate-700">
+                        Saídas
+                      </th>
+                      <th className="text-right py-3 px-4 font-semibold text-slate-700">
+                        Saldo
+                      </th>
+                      <th className="text-center py-3 px-4 font-semibold text-slate-700">
+                        Margem
+                      </th>
+                      <th className="text-center py-3 px-4 font-semibold text-slate-700">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {resumo.detalhesPorEmpresa.map((empresa) => (
-                      <tr key={empresa.empresaId} className="border-b border-slate-100 hover:bg-slate-50">
+                    {resumo.detalhesPorEmpresa.map(empresa => (
+                      <tr
+                        key={empresa.empresaId}
+                        className="border-b border-slate-100 hover:bg-slate-50"
+                      >
                         <td className="py-3 px-4">
                           <div>
-                            <p className="font-medium text-slate-900">{empresa.nomeFantasia}</p>
-                            <p className="text-xs text-slate-500">{empresa.cnpj}</p>
+                            <p className="font-medium text-slate-900">
+                              {empresa.nomeFantasia}
+                            </p>
+                            <p className="text-xs text-slate-500">
+                              {empresa.cnpj}
+                            </p>
                           </div>
                         </td>
                         <td className="text-right py-3 px-4 text-green-600 font-medium">
@@ -240,11 +285,15 @@ export default function DashboardConsolidado() {
                         <td className="text-right py-3 px-4 text-red-600 font-medium">
                           {formatarMoeda(empresa.totalSaidas)}
                         </td>
-                        <td className={`text-right py-3 px-4 font-bold ${empresa.saldoLiquido >= 0 ? "text-green-600" : "text-red-600"}`}>
+                        <td
+                          className={`text-right py-3 px-4 font-bold ${empresa.saldoLiquido >= 0 ? "text-green-600" : "text-red-600"}`}
+                        >
                           {formatarMoeda(empresa.saldoLiquido)}
                         </td>
                         <td className="text-center py-3 px-4">
-                          <span className={`font-medium ${empresa.margemLucro >= 0 ? "text-green-600" : "text-red-600"}`}>
+                          <span
+                            className={`font-medium ${empresa.margemLucro >= 0 ? "text-green-600" : "text-red-600"}`}
+                          >
                             {formatarPercentual(empresa.margemLucro)}
                           </span>
                         </td>
@@ -287,21 +336,38 @@ export default function DashboardConsolidado() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {resumo.detalhesPorEmpresa.map((empresa) => (
-                    <div key={`entradas-${empresa.empresaId}`} className="space-y-2">
-                      <p className="font-medium text-slate-900">{empresa.nomeFantasia}</p>
+                  {resumo.detalhesPorEmpresa.map(empresa => (
+                    <div
+                      key={`entradas-${empresa.empresaId}`}
+                      className="space-y-2"
+                    >
+                      <p className="font-medium text-slate-900">
+                        {empresa.nomeFantasia}
+                      </p>
                       <div className="ml-4 space-y-1 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Contas a Receber:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalContasReceber)}</span>
+                          <span className="text-slate-600">
+                            Contas a Receber:
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalContasReceber)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Fluxo de Caixa:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalFluxoEntradas)}</span>
+                          <span className="text-slate-600">
+                            Fluxo de Caixa:
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalFluxoEntradas)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Faturamento (KPI):</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalKpisFaturamento)}</span>
+                          <span className="text-slate-600">
+                            Faturamento (KPI):
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalKpisFaturamento)}
+                          </span>
                         </div>
                         <div className="border-t pt-1 flex justify-between font-bold text-green-600">
                           <span>Total:</span>
@@ -324,33 +390,56 @@ export default function DashboardConsolidado() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {resumo.detalhesPorEmpresa.map((empresa) => (
-                    <div key={`saidas-${empresa.empresaId}`} className="space-y-2">
-                      <p className="font-medium text-slate-900">{empresa.nomeFantasia}</p>
+                  {resumo.detalhesPorEmpresa.map(empresa => (
+                    <div
+                      key={`saidas-${empresa.empresaId}`}
+                      className="space-y-2"
+                    >
+                      <p className="font-medium text-slate-900">
+                        {empresa.nomeFantasia}
+                      </p>
                       <div className="ml-4 space-y-1 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Contas a Pagar:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalContasPagar)}</span>
+                          <span className="text-slate-600">
+                            Contas a Pagar:
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalContasPagar)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Fluxo de Caixa:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalFluxoSaidas)}</span>
+                          <span className="text-slate-600">
+                            Fluxo de Caixa:
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalFluxoSaidas)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-600">Custos Fixos:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalCustosFixos)}</span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalCustosFixos)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Custos Variáveis:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalCustosVariaveis)}</span>
+                          <span className="text-slate-600">
+                            Custos Variáveis:
+                          </span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalCustosVariaveis)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-600">Impostos:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalImpostos)}</span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalImpostos)}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-600">Salários:</span>
-                          <span className="font-medium">{formatarMoeda(empresa.totalCustosFuncionarios)}</span>
+                          <span className="font-medium">
+                            {formatarMoeda(empresa.totalCustosFuncionarios)}
+                          </span>
                         </div>
                         <div className="border-t pt-1 flex justify-between font-bold text-red-600">
                           <span>Total:</span>

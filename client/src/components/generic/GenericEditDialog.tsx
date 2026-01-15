@@ -1,11 +1,11 @@
 /**
  * Componente Genérico de Dialog de Edição
- * 
+ *
  * Reutilizável para editar qualquer entidade
  */
 
-import React from 'react';
-import { Loader2 } from 'lucide-react';
+import React from "react";
+import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export interface GenericEditDialogProps {
   open: boolean;
@@ -36,14 +36,14 @@ export function GenericEditDialog({
   onOpenChange,
   onSave,
   children,
-  submitLabel = 'Salvar',
-  cancelLabel = 'Cancelar',
+  submitLabel = "Salvar",
+  cancelLabel = "Cancelar",
 }: GenericEditDialogProps) {
   const [isSaving, setIsSaving] = React.useState(false);
 
   const handleSave = async () => {
     if (!onSave) return;
-    
+
     setIsSaving(true);
     try {
       await onSave();
@@ -80,10 +80,7 @@ export function GenericEditDialog({
             {cancelLabel}
           </Button>
           {onSave && (
-            <Button
-              onClick={handleSave}
-              disabled={isSaving || loading}
-            >
+            <Button onClick={handleSave} disabled={isSaving || loading}>
               {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {submitLabel}
             </Button>

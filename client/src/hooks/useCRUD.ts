@@ -1,6 +1,6 @@
 /**
  * Hook customizado para operações CRUD (DRY)
- * 
+ *
  * Elimina repetição de código em múltiplos componentes
  * Princípios aplicados:
  * - DRY: Lógica reutilizável de CRUD
@@ -17,7 +17,7 @@ export interface CRUDOperations<T> {
   selectedItem: T | null;
   isDialogOpen: boolean;
   isEditMode: boolean;
-  
+
   // Actions
   setItems: (items: T[]) => void;
   setLoading: (loading: boolean) => void;
@@ -112,7 +112,9 @@ export function useFormState<T extends Record<string, any>>(initialState: T) {
     setErrors({});
   };
 
-  const validate = (rules: Partial<Record<keyof T, (value: any) => string | undefined>>) => {
+  const validate = (
+    rules: Partial<Record<keyof T, (value: any) => string | undefined>>
+  ) => {
     const newErrors: Partial<Record<keyof T, string>> = {};
     let isValid = true;
 

@@ -1,11 +1,12 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export type LoadingButtonState = 'idle' | 'loading' | 'success' | 'error';
+export type LoadingButtonState = "idle" | "loading" | "success" | "error";
 
-interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface LoadingButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   state?: LoadingButtonState;
   successMessage?: string;
@@ -19,15 +20,18 @@ interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 /**
  * LoadingButton Component
- * 
+ *
  * Componente de botão reutilizável que fornece feedback visual durante operações assíncronas.
  * Suporta estados: idle, loading, success e error com ícones e animações.
  */
-export const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
+export const LoadingButton = React.forwardRef<
+  HTMLButtonElement,
+  LoadingButtonProps
+>(
   (
     {
       isLoading = false,
-      state = 'idle',
+      state = "idle",
       successMessage,
       errorMessage,
       onStateChange,
@@ -42,19 +46,20 @@ export const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonPr
     },
     ref
   ) => {
-    const [displayState, setDisplayState] = React.useState<LoadingButtonState>(state);
+    const [displayState, setDisplayState] =
+      React.useState<LoadingButtonState>(state);
 
     React.useEffect(() => {
-      setDisplayState(state || (isLoading ? 'loading' : 'idle'));
-      onStateChange?.(state || (isLoading ? 'loading' : 'idle'));
+      setDisplayState(state || (isLoading ? "loading" : "idle"));
+      onStateChange?.(state || (isLoading ? "loading" : "idle"));
     }, [state, isLoading, onStateChange]);
 
     // Auto-reset success state
     React.useEffect(() => {
-      if (displayState === 'success') {
+      if (displayState === "success") {
         const timer = setTimeout(() => {
-          setDisplayState('idle');
-          onStateChange?.('idle');
+          setDisplayState("idle");
+          onStateChange?.("idle");
         }, successDuration);
         return () => clearTimeout(timer);
       }
@@ -62,38 +67,38 @@ export const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonPr
 
     // Auto-reset error state
     React.useEffect(() => {
-      if (displayState === 'error') {
+      if (displayState === "error") {
         const timer = setTimeout(() => {
-          setDisplayState('idle');
-          onStateChange?.('idle');
+          setDisplayState("idle");
+          onStateChange?.("idle");
         }, errorDuration);
         return () => clearTimeout(timer);
       }
     }, [displayState, errorDuration, onStateChange]);
 
-    const isDisabled = disabled || displayState === 'loading';
+    const isDisabled = disabled || displayState === "loading";
 
     const getButtonContent = () => {
       switch (displayState) {
-        case 'loading':
+        case "loading":
           return (
             <div className="flex items-center gap-2">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span>Carregando...</span>
             </div>
           );
-        case 'success':
+        case "success":
           return (
             <div className="flex items-center gap-2">
               {showSuccessIcon && <CheckCircle2 className="h-4 w-4" />}
-              <span>{successMessage || 'Sucesso!'}</span>
+              <span>{successMessage || "Sucesso!"}</span>
             </div>
           );
-        case 'error':
+        case "error":
           return (
             <div className="flex items-center gap-2">
               {showErrorIcon && <AlertCircle className="h-4 w-4" />}
-              <span>{errorMessage || 'Erro!'}</span>
+              <span>{errorMessage || "Erro!"}</span>
             </div>
           );
         default:
@@ -106,9 +111,9 @@ export const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonPr
         ref={ref}
         disabled={isDisabled}
         className={cn(
-          'transition-all duration-300',
-          displayState === 'success' && 'bg-green-600 hover:bg-green-700',
-          displayState === 'error' && 'bg-red-600 hover:bg-red-700',
+          "transition-all duration-300",
+          displayState === "success" && "bg-green-600 hover:bg-green-700",
+          displayState === "error" && "bg-red-600 hover:bg-red-700",
           className
         )}
         {...props}
@@ -119,4 +124,4 @@ export const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonPr
   }
 );
 
-LoadingButton.displayName = 'LoadingButton';
+LoadingButton.displayName = "LoadingButton";

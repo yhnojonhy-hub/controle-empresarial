@@ -12,9 +12,11 @@ export default function Contas() {
   const utils = trpc.useUtils();
 
   // Queries
-  const { data: contas = [], isLoading: contasLoading } = trpc.financeiro.contas.list.useQuery();
+  const { data: contas = [], isLoading: contasLoading } =
+    trpc.financeiro.contas.list.useQuery();
   const { data: empresas = [] } = trpc.empresas.list.useQuery();
-  const { data: contasBancarias = [], isLoading: bancariasLoading } = trpc.contasBancarias?.list.useQuery() || { data: [], isLoading: false };
+  const { data: contasBancarias = [], isLoading: bancariasLoading } =
+    trpc.contasBancarias?.list.useQuery() || { data: [], isLoading: false };
 
   // Mutations - Contas a Pagar/Receber
   const createMutation = trpc.financeiro.contas.create.useMutation({
@@ -22,7 +24,7 @@ export default function Contas() {
       utils.financeiro.contas.list.invalidate();
       toast.success("Conta registrada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(`Erro: ${error.message}`);
     },
   });
@@ -32,7 +34,7 @@ export default function Contas() {
       utils.financeiro.contas.list.invalidate();
       toast.success("Conta atualizada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(`Erro: ${error.message}`);
     },
   });
@@ -50,7 +52,7 @@ export default function Contas() {
       utils.contasBancarias.list.invalidate();
       toast.success("Conta bancária criada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(`Erro: ${error.message}`);
     },
   });
@@ -60,7 +62,7 @@ export default function Contas() {
       utils.contasBancarias.list.invalidate();
       toast.success("Conta bancária atualizada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(`Erro: ${error.message}`);
     },
   });
@@ -79,7 +81,10 @@ export default function Contas() {
       label: "Empresa",
       type: "select",
       required: true,
-      options: empresas.map((e) => ({ value: e.id.toString(), label: e.nomeFantasia || e.razaoSocial })),
+      options: empresas.map(e => ({
+        value: e.id.toString(),
+        label: e.nomeFantasia || e.razaoSocial,
+      })),
     },
     {
       name: "tipo",
@@ -93,7 +98,13 @@ export default function Contas() {
     },
     { name: "descricao", label: "Descrição", type: "text", required: true },
     { name: "categoria", label: "Categoria", type: "text" },
-    { name: "valor", label: "Valor", type: "number", required: true, step: "0.01" },
+    {
+      name: "valor",
+      label: "Valor",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
     { name: "vencimento", label: "Vencimento", type: "date", required: true },
     {
       name: "status",
@@ -126,7 +137,13 @@ export default function Contas() {
         { value: "Investimento", label: "Investimento" },
       ],
     },
-    { name: "saldo", label: "Saldo", type: "number", required: true, step: "0.01" },
+    {
+      name: "saldo",
+      label: "Saldo",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
     { name: "titularConta", label: "Titular da Conta", type: "text" },
   ];
 
@@ -146,23 +163,44 @@ export default function Contas() {
           </tr>
         </thead>
         <tbody>
-          {items.map((conta) => {
-            const empresa = empresas.find((e) => e.id === conta.empresaId);
+          {items.map(conta => {
+            const empresa = empresas.find(e => e.id === conta.empresaId);
             const vencimento = new Date(conta.vencimento);
             const hoje = new Date();
             const atrasado = vencimento < hoje && conta.status !== "Pago";
 
             return (
-              <tr key={conta.id} className="border-b border-slate-100 hover:bg-slate-50">
-                <td className="py-3 px-4 font-medium">{empresa?.nomeFantasia || "N/A"}</td>
+              <tr
+                key={conta.id}
+                className="border-b border-slate-100 hover:bg-slate-50"
+              >
+                <td className="py-3 px-4 font-medium">
+                  {empresa?.nomeFantasia || "N/A"}
+                </td>
                 <td className="py-3 px-4">
-                  <Badge variant={conta.tipo === "Pagar" ? "destructive" : "default"}>{conta.tipo}</Badge>
+                  <Badge
+                    variant={conta.tipo === "Pagar" ? "destructive" : "default"}
+                  >
+                    {conta.tipo}
+                  </Badge>
                 </td>
                 <td className="py-3 px-4">{conta.descricao}</td>
-                <td className="py-3 px-4 text-right font-bold">R$ {parseFloat(conta.valor || "0").toFixed(2)}</td>
-                <td className="py-3 px-4">{vencimento.toLocaleDateString("pt-BR")}</td>
+                <td className="py-3 px-4 text-right font-bold">
+                  R$ {parseFloat(conta.valor || "0").toFixed(2)}
+                </td>
+                <td className="py-3 px-4">
+                  {vencimento.toLocaleDateString("pt-BR")}
+                </td>
                 <td className="py-3 px-4 text-center">
-                  <Badge variant={atrasado ? "destructive" : conta.status === "Pago" ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      atrasado
+                        ? "destructive"
+                        : conta.status === "Pago"
+                          ? "default"
+                          : "secondary"
+                    }
+                  >
                     {atrasado ? "Atrasado" : conta.status}
                   </Badge>
                 </td>
@@ -175,7 +213,11 @@ export default function Contas() {
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        if (confirm(`Tem certeza que deseja deletar "${conta.descricao}"?`)) {
+                        if (
+                          confirm(
+                            `Tem certeza que deseja deletar "${conta.descricao}"?`
+                          )
+                        ) {
                           deleteMutation.mutate({ id: conta.id });
                         }
                       }}
@@ -208,18 +250,25 @@ export default function Contas() {
           </tr>
         </thead>
         <tbody>
-          {items.map((conta) => (
-            <tr key={conta.id} className="border-b border-slate-100 hover:bg-slate-50">
+          {items.map(conta => (
+            <tr
+              key={conta.id}
+              className="border-b border-slate-100 hover:bg-slate-50"
+            >
               <td className="py-3 px-4 font-medium">{conta.banco}</td>
               <td className="py-3 px-4">{conta.agencia}</td>
               <td className="py-3 px-4">{conta.conta}</td>
               <td className="py-3 px-4">
                 <Badge variant="outline">{conta.tipo}</Badge>
               </td>
-              <td className={`py-3 px-4 text-right font-bold ${parseFloat(conta.saldo || "0") >= 0 ? "text-green-600" : "text-red-600"}`}>
+              <td
+                className={`py-3 px-4 text-right font-bold ${parseFloat(conta.saldo || "0") >= 0 ? "text-green-600" : "text-red-600"}`}
+              >
                 R$ {parseFloat(conta.saldo || "0").toFixed(2)}
               </td>
-              <td className="py-3 px-4 text-muted-foreground">{conta.titularConta || "-"}</td>
+              <td className="py-3 px-4 text-muted-foreground">
+                {conta.titularConta || "-"}
+              </td>
               <td className="py-3 px-4 text-center">
                 <div className="flex justify-center gap-2">
                   <Button size="sm" variant="ghost">
@@ -229,7 +278,11 @@ export default function Contas() {
                     size="sm"
                     variant="ghost"
                     onClick={() => {
-                      if (confirm(`Tem certeza que deseja deletar a conta ${conta.conta}?`)) {
+                      if (
+                        confirm(
+                          `Tem certeza que deseja deletar a conta ${conta.conta}?`
+                        )
+                      ) {
                         deleteBancariaMutation.mutate({ id: conta.id });
                       }
                     }}
@@ -250,13 +303,17 @@ export default function Contas() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Contas</h1>
-          <p className="text-muted-foreground">Gestão de contas a pagar/receber e contas bancárias</p>
+          <p className="text-muted-foreground">
+            Gestão de contas a pagar/receber e contas bancárias
+          </p>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value="contas-pagar-receber">Contas a Pagar/Receber</TabsTrigger>
+          <TabsTrigger value="contas-pagar-receber">
+            Contas a Pagar/Receber
+          </TabsTrigger>
           <TabsTrigger value="contas-bancarias">Contas Bancárias</TabsTrigger>
         </TabsList>
 
@@ -268,7 +325,7 @@ export default function Contas() {
             createDialogTitle="Registrar Conta"
             editDialogTitle="Editar Conta"
             fields={fieldsContas}
-            onCreateSubmit={(data) => {
+            onCreateSubmit={data => {
               createMutation.mutate({
                 empresaId: parseInt(data.empresaId),
                 tipo: data.tipo,
@@ -297,7 +354,7 @@ export default function Contas() {
                 },
               });
             }}
-            onDelete={(id) => {
+            onDelete={id => {
               deleteMutation.mutate({ id });
             }}
             isLoading={contasLoading}
@@ -319,13 +376,13 @@ export default function Contas() {
             createDialogTitle="Registrar Conta Bancária"
             editDialogTitle="Editar Conta Bancária"
             fields={fieldsBancarias}
-            onCreateSubmit={(data) => {
+            onCreateSubmit={data => {
               createBancariaMutation?.mutate(data);
             }}
             onUpdateSubmit={(id, data) => {
               updateBancariaMutation?.mutate({ id, data });
             }}
-            onDelete={(id) => {
+            onDelete={id => {
               deleteBancariaMutation?.mutate({ id });
             }}
             isLoading={bancariasLoading}

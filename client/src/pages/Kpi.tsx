@@ -46,13 +46,46 @@ export default function Kpi() {
       label: "Empresa",
       type: "select",
       required: true,
-      options: empresas.map((e) => ({ value: e.id.toString(), label: e.nomeFantasia || e.razaoSocial })),
+      options: empresas.map(e => ({
+        value: e.id.toString(),
+        label: e.nomeFantasia || e.razaoSocial,
+      })),
     },
-    { name: "mesAno", label: "Mês/Ano", type: "text", required: true, placeholder: "YYYY-MM" },
-    { name: "faturamentoBruto", label: "Faturamento Bruto", type: "number", required: true, step: "0.01" },
-    { name: "impostos", label: "Impostos", type: "number", required: true, step: "0.01" },
-    { name: "custosFixos", label: "Custos Fixos", type: "number", required: true, step: "0.01" },
-    { name: "custosVariaveis", label: "Custos Variáveis", type: "number", required: true, step: "0.01" },
+    {
+      name: "mesAno",
+      label: "Mês/Ano",
+      type: "text",
+      required: true,
+      placeholder: "YYYY-MM",
+    },
+    {
+      name: "faturamentoBruto",
+      label: "Faturamento Bruto",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
+    {
+      name: "impostos",
+      label: "Impostos",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
+    {
+      name: "custosFixos",
+      label: "Custos Fixos",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
+    {
+      name: "custosVariaveis",
+      label: "Custos Variáveis",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
   ];
 
   const calcularIndicadores = (kpi: any) => {
@@ -61,7 +94,8 @@ export default function Kpi() {
     const custosFixos = parseFloat(kpi.custosFixos || "0");
     const custosVariaveis = parseFloat(kpi.custosVariaveis || "0");
     const lucroLiquido = faturamento - impostos - custosFixos - custosVariaveis;
-    const margemLucro = faturamento > 0 ? ((lucroLiquido / faturamento) * 100).toFixed(2) : "0";
+    const margemLucro =
+      faturamento > 0 ? ((lucroLiquido / faturamento) * 100).toFixed(2) : "0";
     return { lucroLiquido, margemLucro };
   };
 
@@ -74,23 +108,38 @@ export default function Kpi() {
             <th className="text-left py-3 px-4 font-semibold">Período</th>
             <th className="text-right py-3 px-4 font-semibold">Faturamento</th>
             <th className="text-right py-3 px-4 font-semibold">Custos</th>
-            <th className="text-right py-3 px-4 font-semibold">Lucro Líquido</th>
+            <th className="text-right py-3 px-4 font-semibold">
+              Lucro Líquido
+            </th>
             <th className="text-center py-3 px-4 font-semibold">Margem</th>
             <th className="text-center py-3 px-4 font-semibold">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {items.map((kpi) => {
-            const empresa = empresas.find((e) => e.id === kpi.empresaId);
+          {items.map(kpi => {
+            const empresa = empresas.find(e => e.id === kpi.empresaId);
             const { lucroLiquido, margemLucro } = calcularIndicadores(kpi);
-            const custos = parseFloat(kpi.custosFixos || "0") + parseFloat(kpi.custosVariaveis || "0");
+            const custos =
+              parseFloat(kpi.custosFixos || "0") +
+              parseFloat(kpi.custosVariaveis || "0");
             return (
-              <tr key={kpi.id} className="border-b border-slate-100 hover:bg-slate-50">
-                <td className="py-3 px-4 font-medium">{empresa?.nomeFantasia || "N/A"}</td>
-                <td className="py-3 px-4 text-muted-foreground">{kpi.mesAno}</td>
-                <td className="py-3 px-4 text-right">R$ {parseFloat(kpi.faturamentoBruto || "0").toFixed(2)}</td>
+              <tr
+                key={kpi.id}
+                className="border-b border-slate-100 hover:bg-slate-50"
+              >
+                <td className="py-3 px-4 font-medium">
+                  {empresa?.nomeFantasia || "N/A"}
+                </td>
+                <td className="py-3 px-4 text-muted-foreground">
+                  {kpi.mesAno}
+                </td>
+                <td className="py-3 px-4 text-right">
+                  R$ {parseFloat(kpi.faturamentoBruto || "0").toFixed(2)}
+                </td>
                 <td className="py-3 px-4 text-right">R$ {custos.toFixed(2)}</td>
-                <td className={`py-3 px-4 text-right font-bold ${lucroLiquido >= 0 ? "text-green-600" : "text-red-600"}`}>
+                <td
+                  className={`py-3 px-4 text-right font-bold ${lucroLiquido >= 0 ? "text-green-600" : "text-red-600"}`}
+                >
                   R$ {lucroLiquido.toFixed(2)}
                 </td>
                 <td className="py-3 px-4 text-center">{margemLucro}%</td>
@@ -103,7 +152,9 @@ export default function Kpi() {
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        if (confirm("Tem certeza que deseja excluir este KPI?")) {
+                        if (
+                          confirm("Tem certeza que deseja excluir este KPI?")
+                        ) {
                           deleteMutation.mutate({ id: kpi.id });
                         }
                       }}
@@ -128,7 +179,7 @@ export default function Kpi() {
       createDialogTitle="Registrar KPI"
       editDialogTitle="Editar KPI"
       fields={fields}
-      onCreateSubmit={(data) => {
+      onCreateSubmit={data => {
         createMutation.mutate({
           empresaId: parseInt(data.empresaId),
           mesAno: data.mesAno,
@@ -151,7 +202,7 @@ export default function Kpi() {
           },
         });
       }}
-      onDelete={(id) => {
+      onDelete={id => {
         deleteMutation.mutate({ id });
       }}
       isLoading={isLoading}

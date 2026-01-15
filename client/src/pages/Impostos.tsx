@@ -7,7 +7,8 @@ import { toast } from "sonner";
 
 export default function Impostos() {
   const utils = trpc.useUtils();
-  const { data: impostos = [], isLoading } = trpc.financeiro.impostos.list.useQuery();
+  const { data: impostos = [], isLoading } =
+    trpc.financeiro.impostos.list.useQuery();
   const { data: empresas = [] } = trpc.empresas.list.useQuery();
 
   const createImposto = trpc.financeiro.impostos.create.useMutation({
@@ -15,7 +16,7 @@ export default function Impostos() {
       utils.financeiro.impostos.list.invalidate();
       toast.success("Imposto cadastrado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao cadastrar imposto: " + error.message);
     },
   });
@@ -25,7 +26,7 @@ export default function Impostos() {
       utils.financeiro.impostos.list.invalidate();
       toast.success("Imposto atualizado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao atualizar imposto: " + error.message);
     },
   });
@@ -35,7 +36,7 @@ export default function Impostos() {
       utils.financeiro.impostos.list.invalidate();
       toast.success("Imposto deletado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao deletar imposto: " + error.message);
     },
   });
@@ -46,9 +47,18 @@ export default function Impostos() {
       label: "Empresa",
       type: "select",
       required: true,
-      options: empresas.map((e) => ({ value: e.id.toString(), label: e.nomeFantasia || e.razaoSocial })),
+      options: empresas.map(e => ({
+        value: e.id.toString(),
+        label: e.nomeFantasia || e.razaoSocial,
+      })),
     },
-    { name: "mesAno", label: "Mês/Ano", type: "text", required: true, placeholder: "YYYY-MM" },
+    {
+      name: "mesAno",
+      label: "Mês/Ano",
+      type: "text",
+      required: true,
+      placeholder: "YYYY-MM",
+    },
     {
       name: "tipo",
       label: "Tipo de Imposto",
@@ -64,8 +74,20 @@ export default function Impostos() {
         { value: "CSLL", label: "CSLL" },
       ],
     },
-    { name: "baseCalculo", label: "Base de Cálculo", type: "number", required: true, step: "0.01" },
-    { name: "aliquota", label: "Alíquota (%)", type: "number", required: true, step: "0.01" },
+    {
+      name: "baseCalculo",
+      label: "Base de Cálculo",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
+    {
+      name: "aliquota",
+      label: "Alíquota (%)",
+      type: "number",
+      required: true,
+      step: "0.01",
+    },
     { name: "vencimento", label: "Vencimento", type: "date", required: true },
   ];
 
@@ -75,16 +97,19 @@ export default function Impostos() {
     return base * aliq;
   };
 
-  const totalImpostos = impostos?.reduce((acc, imp) => {
-    const valor = calcularValor(imp.baseCalculo || "0", imp.aliquota || "0");
-    return acc + valor;
-  }, 0) || 0;
+  const totalImpostos =
+    impostos?.reduce((acc, imp) => {
+      const valor = calcularValor(imp.baseCalculo || "0", imp.aliquota || "0");
+      return acc + valor;
+    }, 0) || 0;
 
   const renderTable = (items: any[]) => (
     <>
       <div className="mb-6 bg-orange-50 p-4 rounded-lg">
         <p className="text-sm text-muted-foreground">Total de Impostos</p>
-        <p className="text-3xl font-bold text-orange-600">R$ {totalImpostos.toFixed(2)}</p>
+        <p className="text-3xl font-bold text-orange-600">
+          R$ {totalImpostos.toFixed(2)}
+        </p>
       </div>
 
       <div className="overflow-x-auto">
@@ -102,23 +127,41 @@ export default function Impostos() {
             </tr>
           </thead>
           <tbody>
-            {items.map((imp) => {
-              const empresa = empresas.find((e) => e.id === imp.empresaId);
-              const valor = calcularValor(imp.baseCalculo || "0", imp.aliquota || "0");
+            {items.map(imp => {
+              const empresa = empresas.find(e => e.id === imp.empresaId);
+              const valor = calcularValor(
+                imp.baseCalculo || "0",
+                imp.aliquota || "0"
+              );
               const vencimento = new Date(imp.vencimento);
               const hoje = new Date();
               const vencido = vencimento < hoje;
 
               return (
-                <tr key={imp.id} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="py-3 px-4 font-medium">{empresa?.nomeFantasia || "N/A"}</td>
-                  <td className="py-3 px-4 text-muted-foreground">{imp.mesAno}</td>
+                <tr
+                  key={imp.id}
+                  className="border-b border-slate-100 hover:bg-slate-50"
+                >
+                  <td className="py-3 px-4 font-medium">
+                    {empresa?.nomeFantasia || "N/A"}
+                  </td>
+                  <td className="py-3 px-4 text-muted-foreground">
+                    {imp.mesAno}
+                  </td>
                   <td className="py-3 px-4">{imp.tipo}</td>
-                  <td className="py-3 px-4 text-right">R$ {parseFloat(imp.baseCalculo || "0").toFixed(2)}</td>
-                  <td className="py-3 px-4 text-center">{parseFloat(imp.aliquota || "0").toFixed(2)}%</td>
-                  <td className="py-3 px-4 text-right font-bold">R$ {valor.toFixed(2)}</td>
+                  <td className="py-3 px-4 text-right">
+                    R$ {parseFloat(imp.baseCalculo || "0").toFixed(2)}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    {parseFloat(imp.aliquota || "0").toFixed(2)}%
+                  </td>
+                  <td className="py-3 px-4 text-right font-bold">
+                    R$ {valor.toFixed(2)}
+                  </td>
                   <td className="py-3 px-4">
-                    <Badge variant={vencido ? "destructive" : "default"}>{vencimento.toLocaleDateString("pt-BR")}</Badge>
+                    <Badge variant={vencido ? "destructive" : "default"}>
+                      {vencimento.toLocaleDateString("pt-BR")}
+                    </Badge>
                   </td>
                   <td className="py-3 px-4 text-center">
                     <div className="flex justify-center gap-2">
@@ -129,7 +172,11 @@ export default function Impostos() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          if (confirm(`Tem certeza que deseja deletar o imposto "${imp.tipo}"?`)) {
+                          if (
+                            confirm(
+                              `Tem certeza que deseja deletar o imposto "${imp.tipo}"?`
+                            )
+                          ) {
                             deleteImposto.mutate({ id: imp.id });
                           }
                         }}
@@ -155,7 +202,7 @@ export default function Impostos() {
       createDialogTitle="Registrar Imposto"
       editDialogTitle="Editar Imposto"
       fields={fields}
-      onCreateSubmit={(data) => {
+      onCreateSubmit={data => {
         createImposto.mutate({
           empresaId: parseInt(data.empresaId),
           mesAno: data.mesAno,
@@ -178,7 +225,7 @@ export default function Impostos() {
           },
         });
       }}
-      onDelete={(id) => {
+      onDelete={id => {
         deleteImposto.mutate({ id });
       }}
       isLoading={isLoading}

@@ -1,14 +1,20 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Building2, 
-  TrendingUp, 
-  CreditCard, 
-  Users, 
-  ArrowUpDown, 
-  FileText, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Building2,
+  TrendingUp,
+  CreditCard,
+  Users,
+  ArrowUpDown,
+  FileText,
   Bell,
   DollarSign,
   TrendingDown,
@@ -16,7 +22,6 @@ import {
   UserCheck,
   BarChart3,
   RefreshCw,
-
 } from "lucide-react";
 import { Link } from "wouter";
 import { DashboardCharts } from "@/components/DashboardCharts";
@@ -26,8 +31,12 @@ export default function Home() {
   const { data: dashboard } = trpc.dashboard.summary.useQuery(undefined, {
     enabled: isAuthenticated,
   });
-  const { data: kpis } = trpc.financeiro.kpis.list.useQuery(undefined, { enabled: isAuthenticated });
-  const { data: contas } = trpc.financeiro.contas.list.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: kpis } = trpc.financeiro.kpis.list.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
+  const { data: contas } = trpc.financeiro.contas.list.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
 
   const menuItems = [
     {
@@ -120,14 +129,22 @@ export default function Home() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">Controle Empresarial</h1>
-              <p className="text-sm text-slate-600">Sistema de Gestão Nível CEO</p>
+              <h1 className="text-2xl font-bold text-slate-900">
+                Controle Empresarial
+              </h1>
+              <p className="text-sm text-slate-600">
+                Sistema de Gestão Nível CEO
+              </p>
             </div>
             {isAuthenticated && user && (
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-sm font-medium text-slate-900">{user.name}</p>
-                  <p className="text-xs text-slate-600">{user.role === "admin" ? "Administrador" : "Usuário"}</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {user.name}
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    {user.role === "admin" ? "Administrador" : "Usuário"}
+                  </p>
                 </div>
                 {user.role === "admin" && (
                   <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">
@@ -145,7 +162,9 @@ export default function Home() {
         <section className="mb-12">
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-slate-900">Dashboard CEO</h2>
-            <p className="text-slate-600">Visão geral executiva do desempenho empresarial em tempo real</p>
+            <p className="text-slate-600">
+              Visão geral executiva do desempenho empresarial em tempo real
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
@@ -158,9 +177,10 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600">
-                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                    dashboard?.faturamentoMes || 0
-                  )}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(dashboard?.faturamentoMes || 0)}
                 </div>
               </CardContent>
             </Card>
@@ -174,9 +194,10 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-600">
-                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                    dashboard?.totalDespesas || 0
-                  )}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(dashboard?.totalDespesas || 0)}
                 </div>
               </CardContent>
             </Card>
@@ -189,10 +210,13 @@ export default function Home() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className={`text-2xl font-bold ${(dashboard?.lucroPrejuizo || 0) >= 0 ? "text-green-600" : "text-red-600"}`}>
-                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                    dashboard?.lucroPrejuizo || 0
-                  )}
+                <div
+                  className={`text-2xl font-bold ${(dashboard?.lucroPrejuizo || 0) >= 0 ? "text-green-600" : "text-red-600"}`}
+                >
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(dashboard?.lucroPrejuizo || 0)}
                 </div>
               </CardContent>
             </Card>
@@ -206,9 +230,10 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-purple-600">
-                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                    dashboard?.saldoCaixa || 0
-                  )}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(dashboard?.saldoCaixa || 0)}
                 </div>
               </CardContent>
             </Card>
@@ -233,32 +258,41 @@ export default function Home() {
             <Card>
               <CardHeader>
                 <CardTitle>Visão Geral Financeira</CardTitle>
-                <CardDescription>Resumo consolidado do período atual</CardDescription>
+                <CardDescription>
+                  Resumo consolidado do período atual
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600">Faturamento Bruto</span>
                   <span className="font-bold">
-                    {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                      dashboard?.faturamentoMes || 0
-                    )}
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(dashboard?.faturamentoMes || 0)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600">(-) Despesas</span>
                   <span className="font-bold text-red-600">
-                    {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                      dashboard?.totalDespesas || 0
-                    )}
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(dashboard?.totalDespesas || 0)}
                   </span>
                 </div>
                 <div className="border-t pt-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold">Resultado Líquido</span>
-                    <span className={`text-lg font-bold ${(dashboard?.lucroPrejuizo || 0) >= 0 ? "text-green-600" : "text-red-600"}`}>
-                      {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-                        dashboard?.lucroPrejuizo || 0
-                      )}
+                    <span className="text-lg font-semibold">
+                      Resultado Líquido
+                    </span>
+                    <span
+                      className={`text-lg font-bold ${(dashboard?.lucroPrejuizo || 0) >= 0 ? "text-green-600" : "text-red-600"}`}
+                    >
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(dashboard?.lucroPrejuizo || 0)}
                     </span>
                   </div>
                 </div>
@@ -268,7 +302,9 @@ export default function Home() {
             <Card>
               <CardHeader>
                 <CardTitle>Ações Rápidas</CardTitle>
-                <CardDescription>Acesse as principais funcionalidades</CardDescription>
+                <CardDescription>
+                  Acesse as principais funcionalidades
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 <Link href="/empresas">
@@ -298,8 +334,12 @@ export default function Home() {
         {kpis && kpis.length > 0 && contas && contas.length > 0 && (
           <section className="mb-12">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">Análises e Gráficos</h2>
-              <p className="text-slate-600">Visualização de dados financeiros</p>
+              <h2 className="text-2xl font-bold text-slate-900">
+                Análises e Gráficos
+              </h2>
+              <p className="text-slate-600">
+                Visualização de dados financeiros
+              </p>
             </div>
             <DashboardCharts kpisData={kpis} contasData={contas} />
           </section>
@@ -308,16 +348,22 @@ export default function Home() {
         {/* Menu de Navegação */}
         <section>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">Módulos do Sistema</h2>
-            <p className="text-slate-600">Acesse todas as funcionalidades disponíveis</p>
+            <h2 className="text-2xl font-bold text-slate-900">
+              Módulos do Sistema
+            </h2>
+            <p className="text-slate-600">
+              Acesse todas as funcionalidades disponíveis
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {menuItems.map((item) => (
+            {menuItems.map(item => (
               <Link key={item.href} href={item.href}>
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
-                    <div className={`${item.bgColor} w-12 h-12 rounded-lg flex items-center justify-center mb-3`}>
+                    <div
+                      className={`${item.bgColor} w-12 h-12 rounded-lg flex items-center justify-center mb-3`}
+                    >
                       <item.icon className={`h-6 w-6 ${item.color}`} />
                     </div>
                     <CardTitle className="text-lg">{item.title}</CardTitle>

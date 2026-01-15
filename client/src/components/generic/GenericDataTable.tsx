@@ -1,13 +1,13 @@
 /**
  * Componente Genérico de Tabela com CRUD
- * 
+ *
  * Reutilizável em todas as páginas (Empresas, KPI, Contas, etc)
  * Reduz duplicação de código em ~40-50%
  */
 
-import React from 'react';
-import { Pencil, Trash2, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { Pencil, Trash2, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -15,8 +15,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 export interface Column<T> {
   key: keyof T;
@@ -41,7 +41,7 @@ export function GenericDataTable<T extends { id: number }>({
   loading = false,
   onEdit,
   onDelete,
-  emptyMessage = 'Nenhum registro encontrado',
+  emptyMessage = "Nenhum registro encontrado",
   showActions = true,
 }: GenericDataTableProps<T>) {
   if (loading) {
@@ -65,7 +65,7 @@ export function GenericDataTable<T extends { id: number }>({
       <Table>
         <TableHeader>
           <TableRow>
-            {columns.map((col) => (
+            {columns.map(col => (
               <TableHead key={String(col.key)} style={{ width: col.width }}>
                 {col.label}
               </TableHead>
@@ -74,11 +74,13 @@ export function GenericDataTable<T extends { id: number }>({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((row) => (
+          {data.map(row => (
             <TableRow key={row.id}>
-              {columns.map((col) => (
+              {columns.map(col => (
                 <TableCell key={`${row.id}-${String(col.key)}`}>
-                  {col.render ? col.render(row[col.key], row) : String(row[col.key])}
+                  {col.render
+                    ? col.render(row[col.key], row)
+                    : String(row[col.key])}
                 </TableCell>
               ))}
               {showActions && (

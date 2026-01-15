@@ -15,7 +15,6 @@ import Impostos from "./pages/Impostos";
 import Alertas from "./pages/Alertas";
 import DashboardConsolidado from "./pages/DashboardConsolidado";
 
-
 function Router() {
   return (
     <Switch>

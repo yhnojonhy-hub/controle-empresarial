@@ -2,7 +2,14 @@ import { trpc } from "@/lib/trpc";
 import GenericCRUDPage, { CRUDField } from "@/components/GenericCRUDPage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, AlertCircle, Info, Check, Pencil, Trash2 } from "lucide-react";
+import {
+  AlertTriangle,
+  AlertCircle,
+  Info,
+  Check,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export default function Alertas() {
@@ -14,7 +21,7 @@ export default function Alertas() {
       utils.alertas.list.invalidate();
       toast.success("Alerta criado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao criar alerta: " + error.message);
     },
   });
@@ -24,7 +31,7 @@ export default function Alertas() {
       utils.alertas.list.invalidate();
       toast.success("Alerta atualizado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao atualizar alerta: " + error.message);
     },
   });
@@ -34,7 +41,7 @@ export default function Alertas() {
       utils.alertas.list.invalidate();
       toast.success("Alerta deletado com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao deletar alerta: " + error.message);
     },
   });
@@ -71,7 +78,13 @@ export default function Alertas() {
       ],
     },
     { name: "titulo", label: "Título", type: "text", required: true },
-    { name: "mensagem", label: "Mensagem", type: "textarea", required: true, rows: 3 },
+    {
+      name: "mensagem",
+      label: "Mensagem",
+      type: "textarea",
+      required: true,
+      rows: 3,
+    },
     { name: "entidadeTipo", label: "Tipo de Entidade", type: "text" },
     { name: "entidadeId", label: "ID da Entidade", type: "number" },
   ];
@@ -100,19 +113,25 @@ export default function Alertas() {
 
   const renderTable = (items: any[]) => (
     <div className="space-y-2">
-      {items.map((alerta) => (
-        <div key={alerta.id} className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50">
+      {items.map(alerta => (
+        <div
+          key={alerta.id}
+          className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50"
+        >
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 {getSeveridadeIcon(alerta.severidade)}
                 <h3 className="font-semibold">{alerta.titulo}</h3>
-                <Badge variant={getSeveridadeColor(alerta.severidade)}>{alerta.severidade}</Badge>
+                <Badge variant={getSeveridadeColor(alerta.severidade)}>
+                  {alerta.severidade}
+                </Badge>
                 {alerta.lido && <Badge variant="outline">Lido</Badge>}
               </div>
               <p className="text-sm text-muted-foreground">{alerta.mensagem}</p>
               <p className="text-xs text-muted-foreground mt-2">
-                Tipo: {alerta.tipo} | {new Date(alerta.createdAt).toLocaleDateString("pt-BR")}
+                Tipo: {alerta.tipo} |{" "}
+                {new Date(alerta.createdAt).toLocaleDateString("pt-BR")}
               </p>
             </div>
             <div className="flex gap-2">
@@ -156,13 +175,13 @@ export default function Alertas() {
       createDialogTitle="Criar Alerta"
       editDialogTitle="Editar Alerta"
       fields={fields}
-      onCreateSubmit={(data) => {
+      onCreateSubmit={data => {
         createMutation.mutate(data);
       }}
       onUpdateSubmit={(id, data) => {
         updateMutation.mutate({ id, data });
       }}
-      onDelete={(id) => {
+      onDelete={id => {
         deleteMutation.mutate({ id });
       }}
       isLoading={isLoading}

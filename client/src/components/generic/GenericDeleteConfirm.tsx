@@ -1,11 +1,11 @@
 /**
  * Componente Genérico de Confirmação de Exclusão
- * 
+ *
  * Dialog padronizado para confirmar exclusão de registros
  */
 
-import React from 'react';
-import { Loader2 } from 'lucide-react';
+import React from "react";
+import { Loader2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 export interface GenericDeleteConfirmProps {
   open: boolean;
@@ -30,13 +30,13 @@ export interface GenericDeleteConfirmProps {
 
 export function GenericDeleteConfirm({
   open,
-  title = 'Confirmar exclusão',
-  description = 'Esta ação não pode ser desfeita.',
+  title = "Confirmar exclusão",
+  description = "Esta ação não pode ser desfeita.",
   loading = false,
   onOpenChange,
   onConfirm,
-  confirmLabel = 'Deletar',
-  cancelLabel = 'Cancelar',
+  confirmLabel = "Deletar",
+  cancelLabel = "Cancelar",
 }: GenericDeleteConfirmProps) {
   const [isDeleting, setIsDeleting] = React.useState(false);
 

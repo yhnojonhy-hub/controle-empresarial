@@ -1,6 +1,6 @@
 /**
  * Componente DataTable Reutilizável (DRY)
- * 
+ *
  * Elimina repetição de código de tabelas em múltiplas páginas
  * Princípios aplicados:
  * - DRY: Componente genérico reutilizável
@@ -80,7 +80,7 @@ export function DataTable<T extends { id: number | string }>({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item) => (
+          {data.map(item => (
             <TableRow key={item.id}>
               {columns.map((column, colIndex) => (
                 <TableCell key={colIndex}>

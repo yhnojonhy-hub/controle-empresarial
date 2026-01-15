@@ -653,3 +653,14 @@
 - [x] Remover rota duplicada - CONCLUÍDA
 - [x] Atualizar menu do Dashboard - CONCLUÍDA
 - [x] Testar navegação - CONCLUÍDA
+
+
+## Limpeza e Organização de Código (INICIANDO)
+
+- [ ] Auditoria de código morto e desnecessário
+- [ ] Organização de imports e dependências
+- [ ] Padronização de formatação e identação
+- [ ] Remoção de console.log e debuggers
+- [ ] Validação de tratamento de erros
+- [ ] Testes completos do sistema
+- [ ] Push para GitHub com atualização completa

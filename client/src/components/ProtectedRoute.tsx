@@ -11,7 +11,10 @@ interface ProtectedRouteProps {
   requireAdmin?: boolean;
 }
 
-export default function ProtectedRoute({ children, requireAdmin = false }: ProtectedRouteProps) {
+export default function ProtectedRoute({
+  children,
+  requireAdmin = false,
+}: ProtectedRouteProps) {
   const { user, isAuthenticated, loading } = useAuth();
 
   if (loading) {
@@ -54,7 +57,8 @@ export default function ProtectedRoute({ children, requireAdmin = false }: Prote
             <AlertCircle className="h-16 w-16 mx-auto text-red-500" />
             <h2 className="text-2xl font-bold">Acesso Negado</h2>
             <p className="text-slate-600">
-              Você não possui permissão para acessar esta página. Apenas administradores podem visualizar este conteúdo.
+              Você não possui permissão para acessar esta página. Apenas
+              administradores podem visualizar este conteúdo.
             </p>
             <Button
               variant="outline"

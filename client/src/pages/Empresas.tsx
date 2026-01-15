@@ -16,7 +16,7 @@ export default function Empresas() {
       utils.empresas.list.invalidate();
       toast.success("Empresa cadastrada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao cadastrar empresa: " + error.message);
     },
   });
@@ -26,7 +26,7 @@ export default function Empresas() {
       utils.empresas.list.invalidate();
       toast.success("Empresa atualizada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao atualizar empresa: " + error.message);
     },
   });
@@ -36,15 +36,31 @@ export default function Empresas() {
       utils.empresas.list.invalidate();
       toast.success("Empresa deletada com sucesso!");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error("Erro ao deletar empresa: " + error.message);
     },
   });
 
   const fields: CRUDField[] = [
-    { name: "cnpj", label: "CNPJ", type: "text", required: true, placeholder: "00.000.000/0000-00" },
-    { name: "razaoSocial", label: "Razão Social", type: "text", required: true },
-    { name: "nomeFantasia", label: "Nome Fantasia", type: "text", required: true },
+    {
+      name: "cnpj",
+      label: "CNPJ",
+      type: "text",
+      required: true,
+      placeholder: "00.000.000/0000-00",
+    },
+    {
+      name: "razaoSocial",
+      label: "Razão Social",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "nomeFantasia",
+      label: "Nome Fantasia",
+      type: "text",
+      required: true,
+    },
     { name: "email", label: "Email", type: "email" },
     { name: "telefone", label: "Telefone", type: "tel" },
     { name: "endereco", label: "Endereço", type: "text" },
@@ -66,17 +82,30 @@ export default function Empresas() {
           </tr>
         </thead>
         <tbody>
-          {items.map((empresa) => (
-            <tr key={empresa.id} className="border-b border-slate-100 hover:bg-slate-50">
+          {items.map(empresa => (
+            <tr
+              key={empresa.id}
+              className="border-b border-slate-100 hover:bg-slate-50"
+            >
               <td className="py-3 px-4">
                 <div>
-                  <p className="font-medium">{empresa.nomeFantasia || empresa.razaoSocial}</p>
-                  <p className="text-xs text-muted-foreground">{empresa.razaoSocial}</p>
+                  <p className="font-medium">
+                    {empresa.nomeFantasia || empresa.razaoSocial}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {empresa.razaoSocial}
+                  </p>
                 </div>
               </td>
-              <td className="py-3 px-4 text-muted-foreground">{empresa.cnpj}</td>
-              <td className="py-3 px-4 text-muted-foreground">{empresa.email || "-"}</td>
-              <td className="py-3 px-4 text-muted-foreground">{empresa.telefone || "-"}</td>
+              <td className="py-3 px-4 text-muted-foreground">
+                {empresa.cnpj}
+              </td>
+              <td className="py-3 px-4 text-muted-foreground">
+                {empresa.email || "-"}
+              </td>
+              <td className="py-3 px-4 text-muted-foreground">
+                {empresa.telefone || "-"}
+              </td>
               <td className="py-3 px-4 text-center">
                 <div className="flex justify-center gap-2">
                   <Button
@@ -85,7 +114,11 @@ export default function Empresas() {
                     onClick={() => {
                       const editData = {
                         ...empresa,
-                        dataAbertura: empresa.dataAbertura ? new Date(empresa.dataAbertura).toISOString().split("T")[0] : "",
+                        dataAbertura: empresa.dataAbertura
+                          ? new Date(empresa.dataAbertura)
+                              .toISOString()
+                              .split("T")[0]
+                          : "",
                       };
                       // Abrir dialog de edição
                     }}
@@ -96,7 +129,11 @@ export default function Empresas() {
                     size="sm"
                     variant="ghost"
                     onClick={() => {
-                      if (confirm(`Tem certeza que deseja deletar "${empresa.nomeFantasia || empresa.razaoSocial}"?`)) {
+                      if (
+                        confirm(
+                          `Tem certeza que deseja deletar "${empresa.nomeFantasia || empresa.razaoSocial}"?`
+                        )
+                      ) {
                         deleteEmpresa.mutate({ id: empresa.id });
                       }
                     }}
@@ -120,14 +157,14 @@ export default function Empresas() {
       createDialogTitle="Cadastrar Empresa"
       editDialogTitle="Editar Empresa"
       fields={fields}
-      onCreateSubmit={(data) => {
+      onCreateSubmit={data => {
         createEmpresa.mutate(data);
       }}
       onUpdateSubmit={(id, data) => {
         const { createdAt, updatedAt, ...cleanData } = data;
         updateEmpresa.mutate({ id, data: cleanData });
       }}
-      onDelete={(id) => {
+      onDelete={id => {
         deleteEmpresa.mutate({ id });
       }}
       isLoading={isLoading}
