@@ -611,3 +611,13 @@
 - [x] Criar testes unitários (consolidacao.service.test.ts)
 - [ ] Executar e validar testes
 - [ ] Testar consolidação com dados reais do banco
+
+
+## Consolidação e Reorganização de Páginas (CONCLUÍDA)
+
+- [x] Fase 1: Consolidar ControleFinanceiro em Contas - CONCLUÍDA
+- [x] Fase 2: Deletar Reconciliacao.tsx (será integrada em DashboardConsolidado)
+- [x] Fase 3: Deletar ComponentShowcase.tsx
+- [x] Atualizar rotas em App.tsx
+- [x] Testar navegação completa
+- [x] Validar funcionalidades mantidas

@@ -13,10 +13,7 @@ import Funcionarios from "./pages/Funcionarios";
 import FluxoCaixa from "./pages/FluxoCaixa";
 import Impostos from "./pages/Impostos";
 import Alertas from "./pages/Alertas";
-import ControleFinanceiro from "./pages/ControleFinanceiro";
-import Reconciliacao from "./pages/Reconciliacao";
 import DashboardConsolidado from "./pages/DashboardConsolidado";
-// Nota: Contas Bancárias será criada ou mapeada para uma página existente
 
 
 function Router() {
@@ -30,9 +27,7 @@ function Router() {
       <Route path="/fluxo-caixa" component={FluxoCaixa} />
       <Route path="/impostos" component={Impostos} />
       <Route path="/alertas" component={Alertas} />
-      <Route path="/controle-financeiro" component={ControleFinanceiro} />
-      <Route path="/reconciliacao" component={Reconciliacao} />
-      <Route path="/contas-bancarias" component={ControleFinanceiro} />
+      <Route path="/contas-bancarias" component={Contas} />
       <Route path="/dashboard-consolidado" component={DashboardConsolidado} />
 
       <Route path="/404" component={NotFound} />

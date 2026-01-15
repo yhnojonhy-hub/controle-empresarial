@@ -11,15 +11,21 @@ import {
   AlertCircle,
   CheckCircle,
   Calendar,
+  RefreshCw,
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function DashboardConsolidado() {
+  const [activeTab, setActiveTab] = useState("consolidado");
   const [mesAno, setMesAno] = useState(() => {
     const hoje = new Date();
     return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}`;
   });
+  const [selectedEmpresa, setSelectedEmpresa] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<"Todos" | "Lucro" | "Prejuizo" | "Equilibrio">("Todos");
 
   // Buscar dados consolidados
   const { data: resumo, isLoading, error } = trpc.dashboard.resumoConsolidado.useQuery(
